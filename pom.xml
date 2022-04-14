@@ -41,7 +41,7 @@
         <dependency>
             <groupId>com.baqend</groupId>
             <artifactId>bloom-filter</artifactId>
-            <version>1.0.7</version>
+            <version>2.2.4</version>
         </dependency>
     </dependencies>
     <repositories>
