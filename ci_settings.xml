@@ -2,7 +2,7 @@
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd">
     <servers>
         <server>
-            <id>videobug-common</id>
+            <id>common</id>
             <configuration>
                 <httpHeaders>
                     <property>
