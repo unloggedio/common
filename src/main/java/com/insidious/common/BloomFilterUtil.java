@@ -31,6 +31,9 @@ public class BloomFilterUtil {
     public static byte[] getNextBytes(ByteBuffer buffer) {
         int stringLength = buffer.getInt();
 // System.err.println("String length - " + stringLength);
+        if (stringLength == 0) {
+            return new byte[]{};
+        }
         byte[] str = new byte[stringLength];
         buffer.get(str);
         return str;

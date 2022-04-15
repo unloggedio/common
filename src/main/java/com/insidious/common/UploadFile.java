@@ -6,7 +6,6 @@ import com.googlecode.cqengine.attribute.Attribute;
 import com.googlecode.cqengine.attribute.MultiValueAttribute;
 import com.googlecode.cqengine.attribute.SimpleAttribute;
 import com.googlecode.cqengine.query.option.QueryOptions;
-
 import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.wire.WireIn;
@@ -65,7 +64,6 @@ public class UploadFile extends AbstractEvent<UploadFile> {
             };
 
 
-
     protected static final int MASHALLABLE_VERSION = 1;
     protected static JsonParser parser = new JsonParser();
     public String path;
@@ -92,6 +90,7 @@ public class UploadFile extends AbstractEvent<UploadFile> {
 
         String path = BloomFilterUtil.getNextString(byteReader);
         long threadId = byteReader.getLong();
+
         byte[] valueBytes = BloomFilterUtil.getNextBytes(byteReader);
         byte[] probeBytes = BloomFilterUtil.getNextBytes(byteReader);
 
@@ -106,19 +105,27 @@ public class UploadFile extends AbstractEvent<UploadFile> {
     }
 
     public byte[] toBytes() {
-        byte[] valueBytes = BloomFilterConverter.toJson(valueIdBloomFilter).toString().getBytes();
-        byte[] probeBytes = BloomFilterConverter.toJson(probeIdBloomFilter).toString().getBytes();
-        ByteBuffer buffer = ByteBuffer.allocate(4 + path.length() + 8 + 4 + valueBytes.length + 4 + probeBytes.length);
+        ByteBuffer buffer = ByteBuffer.allocate(4 + path.length() + 8 + 4 + 0 + 4 + 0);
         buffer.putInt(path.length());
         buffer.put(path.getBytes());
         buffer.putLong(threadId);
 
 
-        buffer.putInt(valueBytes.length);
-        buffer.put(valueBytes);
+        if (valueIdBloomFilter != null) {
+            byte[] valueBytes = BloomFilterConverter.toJson(valueIdBloomFilter).toString().getBytes();
+            buffer.putInt(valueBytes.length);
+            buffer.put(valueBytes);
+        } else {
+            buffer.putInt(0);
+        }
 
-        buffer.putInt(probeBytes.length);
-        buffer.put(probeBytes);
+        if (probeIdBloomFilter != null) {
+            byte[] probeBytes = BloomFilterConverter.toJson(probeIdBloomFilter).toString().getBytes();
+            buffer.putInt(probeBytes.length);
+            buffer.put(probeBytes);
+        } else {
+            buffer.putInt(0);
+        }
         return buffer.array();
     }
 
