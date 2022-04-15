@@ -12,7 +12,9 @@ public class TypeInfo {
     private String componentType;
     private String classLoaderIdentifier;
 
-    public TypeInfo(String sessionId, long typeId, String typeNameFromClass, String classLocation, String superClass, String componentType, String classLoaderIdentifier) {
+    public TypeInfo(String sessionId, long typeId, String typeNameFromClass,
+                    String classLocation, String superClass,
+                    String componentType, String classLoaderIdentifier) {
         this.sessionId = sessionId;
         this.typeId = typeId;
         this.typeNameFromClass = typeNameFromClass;
