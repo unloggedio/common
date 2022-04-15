@@ -11,7 +11,19 @@ seq:
 types:
   class_info:
     seq:
+      - id: class_id
+        type: u4be
+      - id: container
+        type: str_with_len
+      - id: file_name
+        type: str_with_len
       - id: class_name
+        type: str_with_len
+      - id: log_level
+        type: str_with_len
+      - id: hash
+        type: str_with_len
+      - id: class_loader_identifier
         type: str_with_len
       - id: probe_count
         type: u4be

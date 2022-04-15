@@ -55,7 +55,13 @@ public class KaitaiInsidiousClassWeaveParser extends KaitaiStruct {
             _read();
         }
         private void _read() {
+            this.classId = this._io.readU4be();
+            this.container = new StrWithLen(this._io, this, _root);
+            this.fileName = new StrWithLen(this._io, this, _root);
             this.className = new StrWithLen(this._io, this, _root);
+            this.logLevel = new StrWithLen(this._io, this, _root);
+            this.hash = new StrWithLen(this._io, this, _root);
+            this.classLoaderIdentifier = new StrWithLen(this._io, this, _root);
             this.probeCount = this._io.readU4be();
             probeList = new ArrayList<ProbeInfo>(((Number) (probeCount())).intValue());
             for (int i = 0; i < probeCount(); i++) {
@@ -67,14 +73,26 @@ public class KaitaiInsidiousClassWeaveParser extends KaitaiStruct {
                 this.methodList.add(new MethodInfo(this._io, this, _root));
             }
         }
+        private long classId;
+        private StrWithLen container;
+        private StrWithLen fileName;
         private StrWithLen className;
+        private StrWithLen logLevel;
+        private StrWithLen hash;
+        private StrWithLen classLoaderIdentifier;
         private long probeCount;
         private ArrayList<ProbeInfo> probeList;
         private long methodCount;
         private ArrayList<MethodInfo> methodList;
         private KaitaiInsidiousClassWeaveParser _root;
         private KaitaiInsidiousClassWeaveParser _parent;
+        public long classId() { return classId; }
+        public StrWithLen container() { return container; }
+        public StrWithLen fileName() { return fileName; }
         public StrWithLen className() { return className; }
+        public StrWithLen logLevel() { return logLevel; }
+        public StrWithLen hash() { return hash; }
+        public StrWithLen classLoaderIdentifier() { return classLoaderIdentifier; }
         public long probeCount() { return probeCount; }
         public ArrayList<ProbeInfo> probeList() { return probeList; }
         public long methodCount() { return methodCount; }
