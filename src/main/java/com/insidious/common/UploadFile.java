@@ -78,11 +78,11 @@ public class UploadFile extends AbstractEvent<UploadFile> {
     protected Long[] nanotimes;
     protected Long[] valueIds;
 
-    public UploadFile(String s, long currentThreadId,
+    public UploadFile(String pathToFile, long threadId,
                       BloomFilter<Long> valueIdBloomFilter,
                       BloomFilter<Integer> probeIdBloomFilter) {
-        this.path = s;
-        this.threadId = currentThreadId;
+        this.path = pathToFile;
+        this.threadId = threadId;
         this.valueIdBloomFilter = valueIdBloomFilter;
         this.probeIdBloomFilter = probeIdBloomFilter;
     }

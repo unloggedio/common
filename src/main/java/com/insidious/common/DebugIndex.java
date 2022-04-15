@@ -156,7 +156,7 @@ public class DebugIndex {
         );
 
         ResultSet<UploadFile> files = indexedFileCollection.retrieve(query);
-        List<UploadFile> matches = files.stream().toList();
+        List<UploadFile> matches = files.stream().collect(Collectors.toList());
 
         return new HashSet<>(matches);
 
