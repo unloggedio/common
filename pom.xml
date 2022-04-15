@@ -6,7 +6,7 @@
 
     <groupId>com.videobug</groupId>
     <artifactId>common</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.3-SNAPSHOT</version>
     <dependencies>
         <dependency>
             <groupId>com.googlecode.cqengine</groupId>

@@ -10,8 +10,6 @@ import com.googlecode.cqengine.persistence.disk.DiskPersistence;
 import com.googlecode.cqengine.query.Query;
 import com.googlecode.cqengine.query.option.QueryOptions;
 import com.googlecode.cqengine.resultset.ResultSet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -28,7 +26,6 @@ import static com.googlecode.cqengine.query.QueryFactory.equal;
 public class DebugIndex {
     private final IndexedCollection<UploadFile> indexedFileCollection;
     private final MetadataEngine<UploadFile> metadataEngine;
-    private final Logger logger = LoggerFactory.getLogger(DebugIndex.class);
     private final String indexStoragePath;
     private final List<UploadFile> pendingFiles = new LinkedList<>();
     private boolean isReady = false;
@@ -39,7 +36,6 @@ public class DebugIndex {
         this.indexStoragePath = storagePath;
 
         String indexPath = Path.of(storagePath, "events.dat").toAbsolutePath().toString();
-        logger.info("Index path: {}", indexPath);
         indexedFileCollection = new ConcurrentIndexedCollection<>(
                 DiskPersistence.onPrimaryKeyInFile(UploadFile.UPLOAD_ID, new File(indexPath))
 //                CompositePersistence.of(
@@ -58,18 +54,16 @@ public class DebugIndex {
         indexedFileCollection.addIndex(SuffixTreeIndex.onAttribute(UploadFile.SESSION_ID));
 
         Supplier<QueryOptions> openResourceHandler = () -> new QueryOptions(new HashMap<>());
-        Consumer<QueryOptions> closeResourceHandler = queryOptions -> logger.info("close source handle: {}", queryOptions);
+        Consumer<QueryOptions> closeResourceHandler = (e) -> {};
         metadataEngine = new MetadataEngine<>(indexedFileCollection, openResourceHandler, closeResourceHandler);
         isReady = true;
 
         if (pendingFiles.size() > 0) {
-            logger.info("adding [{}] pending files to index", pendingFiles.size());
             long start = System.currentTimeMillis();
             for (UploadFile pendingFile : pendingFiles) {
                 addToIndex(pendingFile);
             }
             long end = System.currentTimeMillis();
-            logger.info("adding [{}] pending files took [{}] seconds", pendingFiles.size(), (end - start) / 1000);
             pendingFiles.clear();
         }
 
@@ -77,7 +71,6 @@ public class DebugIndex {
 
     public void rebuildIndex(List<UploadFile> files) {
         long start = System.currentTimeMillis();
-        logger.info("rebuilding index with [{}] files", files.size());
 
         int i = 0;
         List<UploadFile> filesToAdd = new LinkedList<>();
@@ -89,8 +82,6 @@ public class DebugIndex {
         }
         addAllToIndex(filesToAdd);
         long end = System.currentTimeMillis();
-        logger.info("took [{}] seconds to rebuild index with [{}/{}] files added",
-                (end - start) / 1000, i, files.size());
 
         // UploadFileIndexedCollection
 
@@ -147,7 +138,6 @@ public class DebugIndex {
 
     public Set<UploadFile> findFilesWithValueIds(FilteredDataEventsRequest filteredDataEventsRequest) {
 
-        logger.info("find files with request: {}", filteredDataEventsRequest);
         Query<UploadFile> query = and(
                 equal(UploadFile.SESSION_ID, filteredDataEventsRequest.getSessionId()),
                 equal(UploadFile.NANOTIME_EVENT, filteredDataEventsRequest.getNanotime()),
