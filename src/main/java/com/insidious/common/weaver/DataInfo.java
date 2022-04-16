@@ -48,6 +48,10 @@ public class DataInfo {
         this.attributes = attributes;
     }
 
+    public int getClassId() {
+        return classId;
+    }
+
     /**
      * Create an instance from a string representation created by DataInfo.toString.
      *
