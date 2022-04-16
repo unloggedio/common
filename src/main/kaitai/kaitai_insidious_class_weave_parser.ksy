@@ -48,16 +48,10 @@ types:
         type: str_with_len
       - id: access
         type: u4be
-      - id: has_source_file_name
-        type: u1
       - id: source_file_name
         type: str_with_len
-        if: has_source_file_name != 0
-      - id: has_method_hash
-        type: u1
       - id: method_hash
         type: str_with_len
-        if: has_method_hash != 0
   probe_info:
     seq:
       - id: class_id

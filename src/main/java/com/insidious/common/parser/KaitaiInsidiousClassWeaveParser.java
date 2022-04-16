@@ -125,25 +125,15 @@ public class KaitaiInsidiousClassWeaveParser extends KaitaiStruct {
             this.methodName = new StrWithLen(this._io, this, _root);
             this.methodDescriptor = new StrWithLen(this._io, this, _root);
             this.access = this._io.readU4be();
-            this.hasSourceFileName = this._io.readBitsIntBe(1) != 0;
-            this._io.alignToByte();
-            if (hasSourceFileName()) {
-                this.sourceFileName = new StrWithLen(this._io, this, _root);
-            }
-            this.hasMethodHash = this._io.readBitsIntBe(1) != 0;
-            this._io.alignToByte();
-            if (hasMethodHash()) {
-                this.methodHash = new StrWithLen(this._io, this, _root);
-            }
+            this.sourceFileName = new StrWithLen(this._io, this, _root);
+            this.methodHash = new StrWithLen(this._io, this, _root);
         }
         private long classId;
         private long methodId;
         private StrWithLen methodName;
         private StrWithLen methodDescriptor;
         private long access;
-        private boolean hasSourceFileName;
         private StrWithLen sourceFileName;
-        private boolean hasMethodHash;
         private StrWithLen methodHash;
         private KaitaiInsidiousClassWeaveParser _root;
         private KaitaiInsidiousClassWeaveParser.ClassInfo _parent;
@@ -152,9 +142,7 @@ public class KaitaiInsidiousClassWeaveParser extends KaitaiStruct {
         public StrWithLen methodName() { return methodName; }
         public StrWithLen methodDescriptor() { return methodDescriptor; }
         public long access() { return access; }
-        public boolean hasSourceFileName() { return hasSourceFileName; }
         public StrWithLen sourceFileName() { return sourceFileName; }
-        public boolean hasMethodHash() { return hasMethodHash; }
         public StrWithLen methodHash() { return methodHash; }
         public KaitaiInsidiousClassWeaveParser _root() { return _root; }
         public KaitaiInsidiousClassWeaveParser.ClassInfo _parent() { return _parent; }
