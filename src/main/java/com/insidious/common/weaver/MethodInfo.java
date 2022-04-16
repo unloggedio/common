@@ -13,12 +13,12 @@ public class MethodInfo {
 
     private static final String SEPARATOR = ",";
 
-    private int classId;
-    private int methodId;
-    private String className;
-    private String methodName;
-    private String methodDesc;
-    private int access;
+    private final int classId;
+    private final int methodId;
+    private final String className;
+    private final String methodName;
+    private final String methodDesc;
+    private final int access;
     private String sourceFileName;
     private String methodHash;
 
@@ -59,8 +59,8 @@ public class MethodInfo {
         String methodName = sc.next();
         String methodDesc = sc.next();
         int access = sc.nextInt();
-        String sourceFileName = sc.hasNext() ? sc.next() : null;
-        String methodHash = sc.hasNext() ? sc.next() : null;
+        String sourceFileName = sc.hasNext() ? sc.next() : "";
+        String methodHash = sc.hasNext() ? sc.next() : "";
         sc.close();
         return new MethodInfo(classId, methodId, className, methodName, methodDesc, access, sourceFileName, methodHash);
     }
@@ -154,21 +154,20 @@ public class MethodInfo {
 
         dao.writeInt(classId);
         dao.writeInt(methodId);
+
         dao.writeInt(methodName.getBytes().length);
         dao.write(methodName.getBytes());
+
         dao.writeInt(methodDesc.getBytes().length);
         dao.write(methodDesc.getBytes());
+
         dao.writeInt(access);
-        dao.writeBoolean(sourceFileName != null);
-        if (sourceFileName != null) {
-            dao.writeInt(sourceFileName.getBytes().length);
-            dao.write(sourceFileName.getBytes());
-        }
-		dao.writeBoolean(sourceFileName != null);
-		if (methodHash != null) {
-			dao.writeInt(methodHash.getBytes().length);
-			dao.write(methodHash.getBytes());
-		}
+
+        dao.writeInt(sourceFileName.getBytes().length);
+        dao.write(sourceFileName.getBytes());
+
+        dao.writeInt(methodHash.getBytes().length);
+        dao.write(methodHash.getBytes());
 
 
         return baos.toByteArray();

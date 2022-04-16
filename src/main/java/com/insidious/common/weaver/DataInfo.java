@@ -1,8 +1,8 @@
 package com.insidious.common.weaver;
 
-
-import java.util.HashMap;
-import java.util.Map;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -14,24 +14,14 @@ public class DataInfo {
     private static final char ATTRIBUTE_KEYVALUE_SEPARATOR = '=';
     private static final char ATTRIBUTE_SEPARATOR = ',';
 
-    private int classId;
-    private int methodId;
-
-    private int dataId;
-
-    private int line;
-    private int instructionIndex;
-
-    private EventType eventType;
-    private Descriptor valueDesc;
-    private String attributes;
-    private Map<String, String> attributesMap = new HashMap<>();
-
-    private String sessionId;
-
-
-    public DataInfo() {
-    }
+    private final int classId;
+    private final int methodId;
+    private final int dataId;
+    private final int line;
+    private final int instructionIndex;
+    private final EventType eventType;
+    private final Descriptor valueDesc;
+    private final String attributes;
 
     /**
      * Create an instance recording the data ID.
@@ -45,7 +35,9 @@ public class DataInfo {
      * @param valueDesc        is the value type observed by the event.
      * @param attributes       specifies additional attributes statically obtained from the instruction.
      */
-    public DataInfo(int classId, int methodId, int dataId, int line, int instructionIndex, EventType eventType, Descriptor valueDesc, String attributes) {
+    public DataInfo(int classId, int methodId, int dataId, int line,
+                    int instructionIndex, EventType eventType,
+                    Descriptor valueDesc, String attributes) {
         this.classId = classId;
         this.methodId = methodId;
         this.dataId = dataId;
@@ -53,22 +45,6 @@ public class DataInfo {
         this.instructionIndex = instructionIndex;
         this.eventType = eventType;
         this.valueDesc = valueDesc;
-
-        if (attributes != null) {
-            String[] attributesList = attributes.split(",");
-            for (String attributePair : attributesList) {
-                if (attributePair == null || attributePair.length() == 0) {
-                    continue;
-                }
-                String[] attributeParts = attributePair.split("=");
-                if (attributeParts.length == 2) {
-                    attributesMap.put(attributeParts[0], attributeParts[1]);
-                } else {
-                    attributesMap.put(attributeParts[0], "true");
-                }
-            }
-        }
-
         this.attributes = attributes;
     }
 
@@ -98,67 +74,53 @@ public class DataInfo {
         return new DataInfo(classId, methodId, dataId, line, instructionIndex, t, d, attributes);
     }
 
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
-
-    public int getClassId() {
-        return classId;
-    }
-
+    /**
+     * @return the method ID.
+     */
     public int getMethodId() {
         return methodId;
     }
 
+    /**
+     * @return the data ID.
+     */
     public int getDataId() {
         return dataId;
     }
 
+    /**
+     * @return the line number.
+     */
     public int getLine() {
         return line;
     }
 
+    /**
+     * @return the location of the bytecode instruction in the ASM's InsnList.
+     */
     public int getInstructionIndex() {
         return instructionIndex;
     }
 
+    /**
+     * @return the event type.
+     */
     public EventType getEventType() {
         return eventType;
     }
 
+    /**
+     * @return the value type observed by the event.
+     */
     public Descriptor getValueDesc() {
         return valueDesc;
     }
 
+    /**
+     * @return additional attributes statically obtained from the instruction.
+     */
     public String getAttributes() {
         return attributes;
-    }
-
-    public void setAttributes(String attributes) {
-        this.attributes = attributes;
-        attributesMap = new HashMap<>();
-        if (attributes != null) {
-            String[] attributesList = attributes.split(",");
-            for (String attributePair : attributesList) {
-                if (attributePair == null || attributePair.length() == 0) {
-                    continue;
-                }
-                String[] attributeParts = attributePair.split("=");
-                if (attributeParts.length == 2) {
-                    attributesMap.put(attributeParts[0], attributeParts[1]);
-                } else {
-                    attributesMap.put(attributeParts[0], "true");
-                }
-            }
-        }
-    }
-
-    public Map<String, String> getAttributesMap() {
-        return attributesMap;
     }
 
     /**
@@ -169,23 +131,21 @@ public class DataInfo {
      * @return the value corresponding to the key.
      */
     public String getAttribute(String key, String defaultValue) {
-        if (attributesMap.containsKey(key)) {
-            return attributesMap.get(key);
+        int index = attributes.indexOf(key);
+        while (index >= 0) {
+            if (index == 0 || attributes.charAt(index - 1) == ATTRIBUTE_SEPARATOR) {
+                int keyEndIndex = attributes.indexOf(ATTRIBUTE_KEYVALUE_SEPARATOR, index);
+                if (keyEndIndex == index + key.length()) {
+                    int valueEndIndex = attributes.indexOf(ATTRIBUTE_SEPARATOR, keyEndIndex);
+                    if (valueEndIndex > keyEndIndex) {
+                        return attributes.substring(index + key.length() + 1, valueEndIndex);
+                    } else {
+                        return attributes.substring(index + key.length() + 1);
+                    }
+                }
+            }
+            index = attributes.indexOf(key, index + 1);
         }
-//        while (index >= 0) {
-//            if (index == 0 || attributes.charAt(index - 1) == ATTRIBUTE_SEPARATOR) {
-//                int keyEndIndex = attributes.indexOf(ATTRIBUTE_KEYVALUE_SEPARATOR, index);
-//                if (keyEndIndex == index + key.length()) {
-//                    int valueEndIndex = attributes.indexOf(ATTRIBUTE_SEPARATOR, keyEndIndex);
-//                    if (valueEndIndex > keyEndIndex) {
-//                        return attributes.substring(index + key.length() + 1, valueEndIndex);
-//                    } else {
-//                        return attributes.substring(index + key.length() + 1);
-//                    }
-//                }
-//            }
-//            index = attributes.indexOf(key, index + 1);
-//        }
         return defaultValue;
     }
 
@@ -193,22 +153,44 @@ public class DataInfo {
      * @return a string representation of the object.
      */
     public String toString() {
-        return dataId +
-                SEPARATOR +
-                classId +
-                SEPARATOR +
-                methodId +
-                SEPARATOR +
-                line +
-                SEPARATOR +
-                instructionIndex +
-                SEPARATOR +
-                eventType.name() +
-                SEPARATOR +
-                (valueDesc != null ? valueDesc.getString() : " [] ") +
-                SEPARATOR +
-                attributes;
+        StringBuilder buf = new StringBuilder();
+
+
+        buf.append(dataId);
+        buf.append(SEPARATOR);
+        buf.append(classId);
+        buf.append(SEPARATOR);
+        buf.append(methodId);
+        buf.append(SEPARATOR);
+        buf.append(line);
+        buf.append(SEPARATOR);
+        buf.append(instructionIndex);
+        buf.append(SEPARATOR);
+        buf.append(eventType.name());
+        buf.append(SEPARATOR);
+        buf.append(valueDesc.getString());
+        buf.append(SEPARATOR);
+        buf.append(attributes);
+        return buf.toString();
     }
 
+    public byte[] toBytes() throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream dao = new DataOutputStream(baos);
 
+        dao.writeInt(classId);
+        dao.writeInt(methodId);
+        dao.writeInt(dataId);
+        dao.writeInt(line);
+        dao.writeInt(instructionIndex);
+        dao.writeInt(eventType.toString().getBytes().length);
+        dao.write(eventType.toString().getBytes());
+        dao.writeInt(valueDesc.getString().getBytes().length);
+        dao.write(valueDesc.getString().getBytes());
+        dao.writeInt(attributes.getBytes().length);
+        dao.write(attributes.getBytes());
+
+
+        return baos.toByteArray();
+    }
 }

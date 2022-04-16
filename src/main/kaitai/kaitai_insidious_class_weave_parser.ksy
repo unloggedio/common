@@ -7,7 +7,6 @@ seq:
     type: class_info
     repeat: expr
     repeat-expr: class_count
-
 types:
   class_info:
     seq:
@@ -50,15 +49,15 @@ types:
       - id: access
         type: u4be
       - id: has_source_file_name
-        type: b1
+        type: u1
       - id: source_file_name
         type: str_with_len
-        if: has_source_file_name
+        if: has_source_file_name != 0
       - id: has_method_hash
-        type: b1
+        type: u1
       - id: method_hash
         type: str_with_len
-        if: has_method_hash
+        if: has_method_hash != 0
   probe_info:
     seq:
       - id: class_id
