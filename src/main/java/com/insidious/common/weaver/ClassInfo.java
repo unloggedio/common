@@ -33,7 +33,9 @@ public class ClassInfo {
      * @param hash                  is a file hash of bytecode.
      * @param classLoaderIdentifier is a string representing a class loader that loaded the original class
      */
-    public ClassInfo(int classId, String container, String filename, String className, LogLevel loglevel, String hash, String classLoaderIdentifier) {
+    public ClassInfo(int classId, String container, String filename,
+                     String className, LogLevel loglevel,
+                     String hash, String classLoaderIdentifier) {
         this.classId = classId;
         this.container = container;
         this.filename = filename;
@@ -154,7 +156,8 @@ public class ClassInfo {
             dao.writeInt(classLoaderIdentifier.getBytes().length);
             dao.write(classLoaderIdentifier.getBytes());
 
-            return baos.toByteArray();
+            byte[] classBytes = baos.toByteArray();
+            return classBytes;
 
         } catch (IOException e) {
             e.printStackTrace();
