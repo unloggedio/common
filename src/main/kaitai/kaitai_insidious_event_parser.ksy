@@ -1,5 +1,5 @@
 meta:
-  id: kaitai_insidious_event_parser
+  id: insidious_kaitai_parser
 seq:
   - id: event
     type: event
@@ -24,8 +24,6 @@ types:
             4: data_event_block
             5: type_record_block
             6: weave_information_block
-            7: timestamp_block
-            8: hostname_block
     enums:
       identifier:
         1: new_object
@@ -34,8 +32,6 @@ types:
         4: data_event
         5: type_record
         6: weave_information
-        7: timestamp
-        8: hostname
   new_object_block:
     seq:
       - id: object_id
@@ -54,10 +50,10 @@ types:
         size: string_length
   new_exception_block:
     seq:
-      - id: string_length
+      - id: exception_length
         type: u4be
       - id: string
-        size: string_length
+        size: exception_length
   data_event_block:
     seq:
       - id: event_id
@@ -70,27 +66,35 @@ types:
         type: u8be
   type_record_block:
     seq:
-      - id: string_length
+      - id: bytes_length
         type: u4be
-      - id: string
+      - id: type_id
+        type: u4be
+      - id: type_name_length
+        type: u4be
+      - id: type_name
         type: str
         encoding: UTF-8
-        size: string_length
+        size: type_name_length
+      - id: class_location_length
+        type: u4be
+      - id: class_location
+        type: str
+        encoding: UTF-8
+        size: class_location_length
+      - id: super_class_id
+        type: u4be
+      - id: component_type_id
+        type: u4be
+      - id: class_loader_length
+        type: u4be
+      - id: class_loader
+        type: str
+        encoding: UTF-8
+        size: class_loader_length
   weave_information_block:
     seq:
       - id: string_length
         type: u4be
       - id: weave_bytes
-        size: string_length
-  timestamp_block:
-    seq:
-      - id: timestamp
-        type: u8be
-  hostname_block:
-    seq:
-      - id: string_length
-        type: u4be
-      - id: string
-        type: str
-        encoding: UTF-8
         size: string_length

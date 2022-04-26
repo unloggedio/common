@@ -13,17 +13,24 @@ public class TypeInfoDocument implements Serializable {
                     return typeInfoDocument.typeName;
                 }
             };
-    public static final SimpleAttribute<TypeInfoDocument, Integer> TYPE_ID  =
+    public static final SimpleAttribute<TypeInfoDocument, Integer> TYPE_ID =
             new SimpleAttribute<TypeInfoDocument, Integer>("typeId") {
                 public Integer getValue(TypeInfoDocument typeInfoDocument, QueryOptions queryOptions) {
                     return typeInfoDocument.typeId;
                 }
             };
     private static final long serialVersionUID = 4357600885262072086L;
-
+    private final byte[] typeBytes;
 
     private int typeId;
     private String typeName;
+
+    public TypeInfoDocument(int typeId, String typeName, byte[] typeInfoBytes) {
+        this.typeId = typeId;
+        this.typeName = typeName;
+        this.typeBytes = typeInfoBytes;
+
+    }
 
     @Override
     public String toString() {
@@ -31,14 +38,6 @@ public class TypeInfoDocument implements Serializable {
                 "typeId=" + typeId +
                 ", typeName='" + typeName + '\'' +
                 '}';
-    }
-
-    public TypeInfoDocument() {
-    }
-
-    public TypeInfoDocument(int typeId, String typeName) {
-        this.typeId = typeId;
-        this.typeName = typeName;
     }
 
     public int getTypeId() {
