@@ -1,5 +1,5 @@
 meta:
-  id: insidious_kaitai_parser
+  id: kaitai_insidious_event_parser
 seq:
   - id: event
     type: event
