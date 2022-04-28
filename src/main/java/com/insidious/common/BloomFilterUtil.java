@@ -7,8 +7,8 @@ import java.nio.ByteBuffer;
 
 public class BloomFilterUtil {
 
-    public static final int BLOOM_FILTER_BIT_SIZE = 1024;
-    public static final int BLOOM_AGGREGATED_FILTER_BIT_SIZE = 1024 * 8;
+    public static final int BLOOM_FILTER_BIT_SIZE = 1024 * 8;
+    public static final int BLOOM_AGGREGATED_FILTER_BIT_SIZE = 1024 * 32;
 
     public static BloomFilter<Long> newBloomFilterForValues(Integer SIZE) {
         return new FilterBuilder(SIZE, 0.001).buildBloomFilter();
