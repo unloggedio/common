@@ -118,11 +118,11 @@ public class DebugIndex {
             Collection<String> sessionId, Collection<Long> valueIdList) {
         Set<UploadFile> allMatches = new HashSet<>();
 
-        for (String s : sessionId) {
-            for (Long aLong : valueIdList) {
+        for (String session : sessionId) {
+            for (Long valueId : valueIdList) {
                 Query<UploadFile> query = and(
-                        equal(UploadFile.SESSION_ID, s),
-                        equal(UploadFile.VALUE_ID, aLong)
+                        equal(UploadFile.SESSION_ID, session),
+                        equal(UploadFile.VALUE_ID, valueId)
                 );
 
                 ResultSet<UploadFile> files = indexedFileCollection.retrieve(query);
