@@ -10,18 +10,18 @@ import java.util.Scanner;
  */
 public class DataInfo {
 
-    private static final String SEPARATOR = ",";
-    private static final char ATTRIBUTE_KEYVALUE_SEPARATOR = '=';
-    private static final char ATTRIBUTE_SEPARATOR = ',';
+    private final static String SEPARATOR = ",";
+    private final static char ATTRIBUTE_KEYVALUE_SEPARATOR = '=';
+    private final static char ATTRIBUTE_SEPARATOR = ',';
 
-    private final int classId;
-    private final int methodId;
-    private final int dataId;
-    private final int line;
-    private final int instructionIndex;
-    private final EventType eventType;
-    private final Descriptor valueDesc;
-    private final String attributes;
+    private int classId;
+    private int methodId;
+    private int dataId;
+    private int line;
+    private int instructionIndex;
+    private EventType eventType;
+    private Descriptor valueDesc;
+    private String attributes;
 
     /**
      * Create an instance recording the data ID.
@@ -46,6 +46,9 @@ public class DataInfo {
         this.eventType = eventType;
         this.valueDesc = valueDesc;
         this.attributes = attributes;
+    }
+
+    public DataInfo() {
     }
 
     public int getClassId() {
