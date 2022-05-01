@@ -3,6 +3,7 @@ package com.insidious.common.weaver;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -22,6 +23,7 @@ public class DataInfo {
     private EventType eventType;
     private Descriptor valueDesc;
     private String attributes;
+    private Map<String, String> attributesMap;
 
     /**
      * Create an instance recording the data ID.
@@ -46,6 +48,14 @@ public class DataInfo {
         this.eventType = eventType;
         this.valueDesc = valueDesc;
         this.attributes = attributes;
+    }
+
+    public Map<String, String> getAttributesMap() {
+        return attributesMap;
+    }
+
+    public void setAttributesMap(Map<String, String> attributesMap) {
+        this.attributesMap = attributesMap;
     }
 
     public DataInfo() {
