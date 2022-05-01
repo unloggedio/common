@@ -18,6 +18,7 @@ public class DataInfo {
     private int classId;
     private int methodId;
     private int dataId;
+    private int index;
     private int line;
     private int instructionIndex;
     private EventType eventType;
@@ -48,6 +49,14 @@ public class DataInfo {
         this.eventType = eventType;
         this.valueDesc = valueDesc;
         this.attributes = attributes;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public Map<String, String> getAttributesMap() {
