@@ -19,8 +19,8 @@ public class MethodInfo {
     private final String methodName;
     private final String methodDesc;
     private final int access;
-    private String sourceFileName;
-    private String methodHash;
+    private final String sourceFileName;
+    private final String methodHash;
 
     /**
      * Create an instance recording the information.
@@ -155,16 +155,24 @@ public class MethodInfo {
         dao.writeInt(classId);
         dao.writeInt(methodId);
 
-        dao.writeInt(methodName.getBytes().length);
-        dao.write(methodName.getBytes());
+        if (methodName != null) {
+            dao.writeInt(methodName.getBytes().length);
+            dao.write(methodName.getBytes());
+        } else {
+            dao.writeInt(0);
+        }
 
         dao.writeInt(methodDesc.getBytes().length);
         dao.write(methodDesc.getBytes());
 
         dao.writeInt(access);
 
-        dao.writeInt(sourceFileName.getBytes().length);
-        dao.write(sourceFileName.getBytes());
+        if (sourceFileName != null) {
+            dao.writeInt(sourceFileName.getBytes().length);
+            dao.write(sourceFileName.getBytes());
+        } else {
+            dao.writeInt(0);
+        }
 
         dao.writeInt(methodHash.getBytes().length);
         dao.write(methodHash.getBytes());

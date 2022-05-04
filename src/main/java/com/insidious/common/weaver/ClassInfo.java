@@ -138,11 +138,19 @@ public class ClassInfo {
         try {
             dao.writeInt(classId);
 
-            dao.writeInt(container.getBytes().length);
-            dao.write(container.getBytes());
+            if (container != null) {
+                dao.writeInt(container.getBytes().length);
+                dao.write(container.getBytes());
+            } else {
+                dao.writeInt(0);
+            }
 
-            dao.writeInt(filename.getBytes().length);
-            dao.write(filename.getBytes());
+            if (filename != null) {
+                dao.writeInt(filename.getBytes().length);
+                dao.write(filename.getBytes());
+            } else {
+                dao.writeInt(0);
+            }
 
             dao.writeInt(className.getBytes().length);
             dao.write(className.getBytes());
@@ -156,8 +164,7 @@ public class ClassInfo {
             dao.writeInt(classLoaderIdentifier.getBytes().length);
             dao.write(classLoaderIdentifier.getBytes());
 
-            byte[] classBytes = baos.toByteArray();
-            return classBytes;
+            return baos.toByteArray();
 
         } catch (IOException e) {
             e.printStackTrace();
