@@ -22,7 +22,6 @@ import static com.googlecode.cqengine.query.QueryFactory.and;
 import static com.googlecode.cqengine.query.QueryFactory.equal;
 
 
-
 public class DebugIndex {
     private final IndexedCollection<UploadFile> indexedFileCollection;
     private final MetadataEngine<UploadFile> metadataEngine;
@@ -31,11 +30,10 @@ public class DebugIndex {
     private boolean isReady = false;
 
     public DebugIndex(
-             String storagePath
+            String storagePath
     ) {
         this.indexStoragePath = storagePath;
-
-        String indexPath = Path.of(storagePath, "events.dat").toAbsolutePath().toString();
+        String indexPath = storagePath + "/" + "events.dat";
         indexedFileCollection = new ConcurrentIndexedCollection<>(
                 DiskPersistence.onPrimaryKeyInFile(UploadFile.UPLOAD_ID, new File(indexPath))
 //                CompositePersistence.of(
@@ -54,7 +52,8 @@ public class DebugIndex {
         indexedFileCollection.addIndex(SuffixTreeIndex.onAttribute(UploadFile.SESSION_ID));
 
         Supplier<QueryOptions> openResourceHandler = () -> new QueryOptions(new HashMap<>());
-        Consumer<QueryOptions> closeResourceHandler = (e) -> {};
+        Consumer<QueryOptions> closeResourceHandler = (e) -> {
+        };
         metadataEngine = new MetadataEngine<>(indexedFileCollection, openResourceHandler, closeResourceHandler);
         isReady = true;
 

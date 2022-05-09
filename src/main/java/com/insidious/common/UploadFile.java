@@ -20,7 +20,7 @@ public class UploadFile extends AbstractEvent<UploadFile> {
 
 
     public static final Attribute<UploadFile, String> SESSION_ID =
-            new SimpleAttribute<>("sessionId") {
+            new SimpleAttribute<UploadFile, String>("sessionId") {
                 @Override
                 public String getValue(UploadFile object, QueryOptions queryOptions) {
                     return object.sessionId;
@@ -33,14 +33,14 @@ public class UploadFile extends AbstractEvent<UploadFile> {
                 }
             };
     public static final Attribute<UploadFile, Long> THREAD_ID =
-            new SimpleAttribute<>("threadId") {
+            new SimpleAttribute<UploadFile, Long>("threadId") {
                 @Override
                 public Long getValue(UploadFile object, QueryOptions queryOptions) {
                     return object.threadId;
                 }
             };
     public static final Attribute<UploadFile, Integer> PROBE_ID =
-            new MultiValueAttribute<>("probeIds") {
+            new MultiValueAttribute<UploadFile, Integer>("probeIds") {
                 public Iterable<Integer> getValues(UploadFile file, QueryOptions queryOptions) {
 
                     return Arrays.asList(file.probeIds);
@@ -48,7 +48,7 @@ public class UploadFile extends AbstractEvent<UploadFile> {
                 }
             };
     public static final Attribute<UploadFile, Long> NANOTIME_EVENT =
-            new MultiValueAttribute<>("nanotime") {
+            new MultiValueAttribute<UploadFile, Long>("nanotime") {
                 public Iterable<Long> getValues(UploadFile file, QueryOptions queryOptions) {
 
                     return Arrays.asList(file.nanotimes);
@@ -56,7 +56,7 @@ public class UploadFile extends AbstractEvent<UploadFile> {
                 }
             };
     public static final Attribute<UploadFile, Long> VALUE_ID =
-            new MultiValueAttribute<>("valueIds") {
+            new MultiValueAttribute<UploadFile, Long>("valueIds") {
                 public Iterable<Long> getValues(UploadFile file, QueryOptions queryOptions) {
                     return Arrays.asList(file.valueIds);
 
