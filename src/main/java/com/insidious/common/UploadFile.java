@@ -75,6 +75,12 @@ public class UploadFile extends AbstractEvent<UploadFile> {
     protected Integer[] probeIds;
     protected Long[] nanotimes;
     protected Long[] valueIds;
+    private final long timeStart = System.currentTimeMillis();
+    private long timeEnd = System.currentTimeMillis();
+
+    public void setTimeEnd(long timeEnd) {
+        this.timeEnd = timeEnd;
+    }
 
     public UploadFile(String pathToFile, long threadId,
                       BloomFilter<Long> valueIdBloomFilter,
