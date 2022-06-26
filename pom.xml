@@ -4,7 +4,7 @@
 
     <groupId>video.bug</groupId>
     <artifactId>common</artifactId>
-    <version>1.1.8</version>
+    <version>1.1.9-SNAPSHOT</version>
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
@@ -28,7 +28,7 @@
         <developerConnection>
             scm:git:git@gitlab.com:insidious1/videobug-common.git
         </developerConnection>
-        <tag>common-1.1.8</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <dependencies>
