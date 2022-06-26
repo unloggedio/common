@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>video.bug</groupId>
     <artifactId>common</artifactId>
-    <version>1.1.8-SNAPSHOT</version>
+    <version>1.1.8</version>
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
@@ -30,7 +28,7 @@
         <developerConnection>
             scm:git:git@gitlab.com:insidious1/videobug-common.git
         </developerConnection>
-        <tag>HEAD</tag>
+        <tag>common-1.1.8</tag>
     </scm>
 
     <dependencies>
