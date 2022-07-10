@@ -10,13 +10,13 @@ public class FilteredDataEventsRequest {
     @NotBlank
     private String sessionId;
 
-    private Long threadId;
-    private Long nanotime;
+    private long threadId = -1;
+    private long nanotime = -1;
 
     private List<Long> valueId;
 
     private PageInfo pageInfo;
-    private Long objectId;
+    private long objectId = -1;
 
     public static FilteredDataEventsRequest copyOf(FilteredDataEventsRequest request) {
         FilteredDataEventsRequest cloneRequest = new FilteredDataEventsRequest();
