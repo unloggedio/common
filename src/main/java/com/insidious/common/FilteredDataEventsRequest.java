@@ -43,7 +43,7 @@ public class FilteredDataEventsRequest {
         this.pageInfo = pageInfo;
     }
 
-    public Long getObjectId() {
+    public long getObjectId() {
         return objectId;
     }
 
@@ -53,7 +53,7 @@ public class FilteredDataEventsRequest {
 
     private List<DebugPoint> debugPoints;
     private String sortOrder;
-    private Integer probeId;
+    private int probeId;
 
 
     public String getSessionId() {
