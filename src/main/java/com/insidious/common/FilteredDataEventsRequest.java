@@ -3,7 +3,6 @@ package com.insidious.common;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -16,8 +15,41 @@ public class FilteredDataEventsRequest {
 
     private List<Long> valueId;
 
-    private Integer pageSize = 10;
-    private Integer pageNumber = 0;
+    private PageInfo pageInfo;
+    private Long objectId;
+
+    public static FilteredDataEventsRequest copyOf(FilteredDataEventsRequest request) {
+        FilteredDataEventsRequest cloneRequest = new FilteredDataEventsRequest();
+
+        cloneRequest.setNanotime(request.getNanotime());
+        cloneRequest.setThreadId(request.getNanotime());
+        cloneRequest.setProbeId(request.getProbeId());
+        cloneRequest.setSessionId(request.getSessionId());
+        cloneRequest.setDebugPoints(request.getDebugPoints());
+        cloneRequest.setObjectId(request.getObjectId());
+        cloneRequest.setSortOrder(request.getSortOrder());
+        PageInfo pageInfo = request.getPageInfo();
+        cloneRequest.setPageInfo(new PageInfo(pageInfo.number, pageInfo.size, pageInfo.order));
+        cloneRequest.setValueId(request.getValueId());
+
+        return cloneRequest;
+    }
+
+    public PageInfo getPageInfo() {
+        return pageInfo;
+    }
+
+    public void setPageInfo(PageInfo pageInfo) {
+        this.pageInfo = pageInfo;
+    }
+
+    public Long getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(Long objectId) {
+        this.objectId = objectId;
+    }
 
     private List<DebugPoint> debugPoints;
     private String sortOrder;
@@ -46,22 +78,6 @@ public class FilteredDataEventsRequest {
 
     public void setValueId(List<Long> valueId) {
         this.valueId = valueId;
-    }
-
-    public Integer getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public Integer getPageNumber() {
-        return pageNumber;
-    }
-
-    public void setPageNumber(Integer pageNumber) {
-        this.pageNumber = pageNumber;
     }
 
     public List<DebugPoint> getDebugPoints() {
