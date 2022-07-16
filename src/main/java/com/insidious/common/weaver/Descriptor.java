@@ -1,13 +1,10 @@
-package com.insidious.common.weaver;
+package com.insidious.receiver.util;
 
 /**
  * This enum represents a data type in Java bytecode.
  */
-public enum Descriptor {
+public class Descriptor {
 
-    Boolean("Z"), Byte("B"), Char("C"), Short("S"),
-    Integer("I"), Long("J"), Float("F"), Double("D"),
-    Object("Ljava/lang/Object;"), Void("V");
 
     private final String desc;
 
@@ -21,25 +18,25 @@ public enum Descriptor {
     public static Descriptor get(String desc) {
         switch (desc) {
             case "Z":
-                return Boolean;
+                return new Descriptor(desc);
             case "B":
-                return Byte;
+                return new Descriptor(desc);
             case "C":
-                return Char;
+                return new Descriptor(desc);
             case "S":
-                return Short;
+                return new Descriptor(desc);
             case "I":
-                return Integer;
+                return new Descriptor(desc);
             case "J":
-                return Long;
+                return new Descriptor(desc);
             case "F":
-                return Float;
+                return new Descriptor(desc);
             case "D":
-                return Double;
+                return new Descriptor(desc);
             case "V":
-                return Void;
+                return new Descriptor(desc);
             default:
-                return Object;
+                return new Descriptor(desc);
         }
     }
 
@@ -50,6 +47,21 @@ public enum Descriptor {
      */
     Descriptor(String desc) {
         this.desc = desc;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Descriptor that = (Descriptor) o;
+
+        return desc.equals(that.desc);
+    }
+
+    @Override
+    public int hashCode() {
+        return desc.hashCode();
     }
 
     /**
