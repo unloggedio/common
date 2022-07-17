@@ -1,6 +1,5 @@
 package com.insidious.common.weaver;
 
-import com.insidious.receiver.util.Descriptor;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;

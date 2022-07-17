@@ -1,10 +1,26 @@
-package com.insidious.receiver.util;
+package com.insidious.common.weaver;
 
 /**
  * This enum represents a data type in Java bytecode.
  */
-public class Descriptor {
+public enum Descriptor {
 
+    Boolean("Z"),
+    Byte("B"),
+    Char("C"),
+    Short("S"),
+    Integer("I"),
+    Long("J"),
+    Float("F"),
+    Double("D"),
+    IntegerObject("Ljava/lang/Integer;"),
+    CharacterObject("Ljava/lang/Character;"),
+    BooleanObject("Ljava/lang/Boolean;"),
+    FloatObject("Ljava/lang/Float;"),
+    DoubleObject("Ljava/lang/Double;"),
+    ShortObject("Ljava/lang/Short;"),
+    Object("Ljava/lang/Object;"),
+    Void("V");
 
     private final String desc;
 
@@ -18,25 +34,37 @@ public class Descriptor {
     public static Descriptor get(String desc) {
         switch (desc) {
             case "Z":
-                return new Descriptor(desc);
+                return Boolean;
             case "B":
-                return new Descriptor(desc);
+                return Byte;
             case "C":
-                return new Descriptor(desc);
+                return Char;
             case "S":
-                return new Descriptor(desc);
+                return Short;
             case "I":
-                return new Descriptor(desc);
+                return Integer;
             case "J":
-                return new Descriptor(desc);
+                return Long;
             case "F":
-                return new Descriptor(desc);
+                return Float;
             case "D":
-                return new Descriptor(desc);
+                return Double;
             case "V":
-                return new Descriptor(desc);
+                return Void;
+            case "Ljava/lang/Integer;":
+                return IntegerObject;
+            case "Ljava/lang/Double;":
+                return DoubleObject;
+            case "Ljava/lang/Short;":
+                return ShortObject;
+            case "Ljava/lang/Float;":
+                return FloatObject;
+            case "Ljava/lang/Boolean;":
+                return BooleanObject;
+            case "Ljava/lang/Character;":
+                return CharacterObject;
             default:
-                return new Descriptor(desc);
+                return Object;
         }
     }
 
@@ -47,21 +75,6 @@ public class Descriptor {
      */
     Descriptor(String desc) {
         this.desc = desc;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Descriptor that = (Descriptor) o;
-
-        return desc.equals(that.desc);
-    }
-
-    @Override
-    public int hashCode() {
-        return desc.hashCode();
     }
 
     /**
