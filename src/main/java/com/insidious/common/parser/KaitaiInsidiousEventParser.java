@@ -176,12 +176,13 @@ public class KaitaiInsidiousEventParser extends KaitaiStruct {
             NEW_EXCEPTION(3),
             DATA_EVENT(4),
             TYPE_RECORD(5),
-            WEAVE_INFORMATION(6);
+            WEAVE_INFORMATION(6),
+            DETAILED_EVENT_INFORMATION(7);
 
             private final long id;
             Identifier(long id) { this.id = id; }
             public long id() { return id; }
-            private static final Map<Long, Identifier> byId = new HashMap<Long, Identifier>(6);
+            private static final Map<Long, Identifier> byId = new HashMap<Long, Identifier>(7);
             static {
                 for (Identifier e : Identifier.values())
                     byId.put(e.id(), e);
@@ -214,6 +215,10 @@ public class KaitaiInsidiousEventParser extends KaitaiStruct {
                 this.block = new WeaveInformationBlock(this._io, this, _root);
                 break;
             }
+            case 7: {
+                this.block = new DetailedEventBlock(this._io, this, _root);
+                break;
+            }
             case 1: {
                 this.block = new NewObjectBlock(this._io, this, _root);
                 break;
@@ -240,6 +245,50 @@ public class KaitaiInsidiousEventParser extends KaitaiStruct {
         public KaitaiStruct block() { return block; }
         public KaitaiInsidiousEventParser _root() { return _root; }
         public KaitaiInsidiousEventParser.Event _parent() { return _parent; }
+    }
+    public static class DetailedEventBlock extends KaitaiStruct {
+        public static DetailedEventBlock fromFile(String fileName) throws IOException {
+            return new DetailedEventBlock(new ByteBufferKaitaiStream(fileName));
+        }
+
+        public DetailedEventBlock(KaitaiStream _io) {
+            this(_io, null, null);
+        }
+
+        public DetailedEventBlock(KaitaiStream _io, KaitaiInsidiousEventParser.Block _parent) {
+            this(_io, _parent, null);
+        }
+
+        public DetailedEventBlock(KaitaiStream _io, KaitaiInsidiousEventParser.Block _parent, KaitaiInsidiousEventParser _root) {
+            super(_io);
+            this._parent = _parent;
+            this._root = _root;
+            _read();
+        }
+        private void _read() {
+            this.eventId = this._io.readU8be();
+            this.timestamp = this._io.readU8be();
+            this.probeId = this._io.readU4be();
+            this.valueId = this._io.readU8be();
+            this.serializedDataLength = this._io.readU4be();
+            this.serializedData = this._io.readBytes(serializedDataLength());
+        }
+        private long eventId;
+        private long timestamp;
+        private long probeId;
+        private long valueId;
+        private long serializedDataLength;
+        private byte[] serializedData;
+        private KaitaiInsidiousEventParser _root;
+        private KaitaiInsidiousEventParser.Block _parent;
+        public long eventId() { return eventId; }
+        public long timestamp() { return timestamp; }
+        public long probeId() { return probeId; }
+        public long valueId() { return valueId; }
+        public long serializedDataLength() { return serializedDataLength; }
+        public byte[] serializedData() { return serializedData; }
+        public KaitaiInsidiousEventParser _root() { return _root; }
+        public KaitaiInsidiousEventParser.Block _parent() { return _parent; }
     }
     public static class NewStringBlock extends KaitaiStruct {
         public static NewStringBlock fromFile(String fileName) throws IOException {

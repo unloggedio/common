@@ -24,6 +24,7 @@ types:
             4: data_event_block
             5: type_record_block
             6: weave_information_block
+            7: detailed_event_block
     enums:
       identifier:
         1: new_object
@@ -32,6 +33,7 @@ types:
         4: data_event
         5: type_record
         6: weave_information
+        7: detailed_event_information
   new_object_block:
     seq:
       - id: object_id
@@ -64,6 +66,20 @@ types:
         type: u4be
       - id: value_id
         type: u8be
+  detailed_event_block:
+    seq:
+      - id: event_id
+        type: u8be
+      - id: timestamp
+        type: u8be
+      - id: probe_id
+        type: u4be
+      - id: value_id
+        type: u8be
+      - id: serialized_data_length
+        type: u4be
+      - id: serialized_data
+        size: serialized_data_length
   type_record_block:
     seq:
       - id: bytes_length
