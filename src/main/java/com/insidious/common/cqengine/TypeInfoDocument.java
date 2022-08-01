@@ -55,4 +55,8 @@ public class TypeInfoDocument implements Serializable {
     public void setTypeName(String typeName) {
         this.typeName = typeName;
     }
+
+    public byte[] getTypeBytes() {
+        return typeBytes;
+    }
 }
