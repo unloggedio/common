@@ -96,28 +96,6 @@ public class ClassInfo {
         this.sessionId = sessionId;
     }
 
-    /**
-     * @return a string representation of the information.
-     */
-    public String toString() {
-        StringBuilder buf = new StringBuilder();
-        buf.append(classId);
-        buf.append(SEPARATOR);
-        buf.append(container);
-        buf.append(SEPARATOR);
-        buf.append(filename);
-        buf.append(SEPARATOR);
-        buf.append(className);
-        buf.append(SEPARATOR);
-        buf.append(loglevel != null ? loglevel.name() : "");
-        buf.append(SEPARATOR);
-        buf.append(hash);
-        buf.append(SEPARATOR);
-        buf.append(classLoaderIdentifier);
-        buf.append(SEPARATOR);
-        return buf.toString();
-    }
-
     public byte[] toBytes() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dao = new DataOutputStream(baos);
@@ -150,6 +128,18 @@ public class ClassInfo {
 
             dao.writeInt(classLoaderIdentifier.getBytes().length);
             dao.write(classLoaderIdentifier.getBytes());
+
+            dao.writeInt(interfaces.length);
+            for (String anInterface : interfaces) {
+                dao.writeInt(anInterface.length());
+                dao.writeBytes(anInterface);
+            }
+            dao.writeInt(signature.length());
+            dao.writeBytes(signature);
+
+            dao.writeInt(superName.length());
+            dao.writeBytes(superName);
+
 
             return baos.toByteArray();
 

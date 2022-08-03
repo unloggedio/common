@@ -24,6 +24,16 @@ types:
         type: str_with_len
       - id: class_loader_identifier
         type: str_with_len
+      - id: interface_count
+        type: u4be
+      - id: interface_names
+        type: str_with_len
+        repeat: expr
+        repeat-expr: interface_count
+      - id: signature
+        type: str_with_len
+      - id: superclass
+        type: str_with_len
       - id: probe_count
         type: u4be
       - id: probe_list
