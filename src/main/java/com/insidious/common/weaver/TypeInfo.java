@@ -30,6 +30,10 @@ public class TypeInfo {
         this.interfaces = interfaces;
     }
 
+    public int[] getInterfaces() {
+        return interfaces;
+    }
+
     public static TypeInfo fromBytes(byte[] typeBytes) {
         DataInputStream dis = new DataInputStream(new ByteArrayInputStream(typeBytes));
         try {
