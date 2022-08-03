@@ -7,6 +7,7 @@ import java.io.IOException;
 
 public class TypeInfo {
 
+    private final int[] interfaces;
     String id;
     String sessionId;
     private long typeId;
@@ -18,7 +19,7 @@ public class TypeInfo {
 
     public TypeInfo(String sessionId, long typeId, String typeNameFromClass,
                     String classLocation, int superClass,
-                    int componentType, String classLoaderIdentifier) {
+                    int componentType, String classLoaderIdentifier, int[] interfaces) {
         this.sessionId = sessionId;
         this.typeId = typeId;
         this.typeNameFromClass = typeNameFromClass;
@@ -26,9 +27,7 @@ public class TypeInfo {
         this.superClass = superClass;
         this.componentType = componentType;
         this.classLoaderIdentifier = classLoaderIdentifier;
-    }
-
-    public TypeInfo() {
+        this.interfaces = interfaces;
     }
 
     public static TypeInfo fromBytes(byte[] typeBytes) {
@@ -51,17 +50,25 @@ public class TypeInfo {
 
             int superClass = dis.readInt();
             int componentClass = dis.readInt();
+
             int classLoaderIdentifierLength = dis.readInt();
-
-
             byte[] classLoaderIdentifierBytes = new byte[classLoaderIdentifierLength];
             readLength = dis.read(classLoaderIdentifierBytes);
             assert readLength == classLoaderIdentifierLength;
             String classLoaderIdentifier = new String(classLoaderIdentifierBytes);
 
 
+
+            int interfaceCount = dis.readInt();
+            int[] interfaces = new int[interfaceCount];
+            for (int i = 0; i < interfaceCount; i++) {
+                int interfaceId = dis.readInt();
+                interfaces[i] = interfaceId;
+            }
+
             TypeInfo typeInfo = new TypeInfo("", typeId, typeName,
-                    classLocation, superClass, componentClass, classLoaderIdentifier);
+                    classLocation, superClass, componentClass, classLoaderIdentifier
+            , interfaces);
             return typeInfo;
         } catch (IOException ex) {
             ex.printStackTrace();
