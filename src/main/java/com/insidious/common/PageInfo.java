@@ -30,6 +30,16 @@ public class PageInfo {
         this.bufferSize = bufferSize;
     }
 
+    @Override
+    public String toString() {
+        return "PageInfo{" +
+                "number=" + number +
+                ", size=" + size +
+                ", order=" + order +
+                ", bufferSize=" + bufferSize +
+                '}';
+    }
+
     public enum Order {
         ASC, DESC
     }

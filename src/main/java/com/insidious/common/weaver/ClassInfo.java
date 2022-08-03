@@ -9,6 +9,9 @@ import java.util.Scanner;
 
 public class ClassInfo {
     private static final String SEPARATOR = ",";
+    private String[] interfaces;
+    private String superName;
+    private String signature;
     String sessionId;
     private int classId;
     private String container;
@@ -35,7 +38,8 @@ public class ClassInfo {
      */
     public ClassInfo(int classId, String container, String filename,
                      String className, LogLevel loglevel,
-                     String hash, String classLoaderIdentifier) {
+                     String hash, String classLoaderIdentifier,
+                    String[] interfaces, String superName, String signature) {
         this.classId = classId;
         this.container = container;
         this.filename = filename;
@@ -43,27 +47,9 @@ public class ClassInfo {
         this.loglevel = loglevel;
         this.hash = hash;
         this.classLoaderIdentifier = classLoaderIdentifier;
-    }
-
-    /**
-     * Create an instance from a string representation created by
-     * ClassInfo.toString.
-     *
-     * @param s is the string representation.
-     * @return an instance.
-     */
-    public static ClassInfo parse(String s) {
-        Scanner sc = new Scanner(s);
-        sc.useDelimiter(SEPARATOR);
-        int classId = sc.nextInt();
-        String container = sc.next();
-        String filename = sc.next();
-        String className = sc.next();
-        LogLevel level = LogLevel.valueOf(sc.next());
-        String hash = sc.next();
-        String id = sc.next();
-        sc.close();
-        return new ClassInfo(classId, container, filename, className, level, hash, id);
+        this.interfaces = interfaces;
+        this.superName = superName;
+        this.signature = signature;
     }
 
     public List<DataInfo> getDataInfoList() {
@@ -128,6 +114,7 @@ public class ClassInfo {
         buf.append(hash);
         buf.append(SEPARATOR);
         buf.append(classLoaderIdentifier);
+        buf.append(SEPARATOR);
         return buf.toString();
     }
 
