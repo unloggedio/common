@@ -134,11 +134,19 @@ public class ClassInfo {
                 dao.writeInt(anInterface.length());
                 dao.writeBytes(anInterface);
             }
-            dao.writeInt(signature.length());
-            dao.writeBytes(signature);
+            if (signature != null) {
+                dao.writeInt(signature.length());
+                dao.writeBytes(signature);
+            } else{
+                dao.writeInt(0);
+            }
 
-            dao.writeInt(superName.length());
-            dao.writeBytes(superName);
+            if (superName != null) {
+                dao.writeInt(superName.length());
+                dao.writeBytes(superName);
+            } else {
+                dao.writeInt(0);
+            }
 
 
             return baos.toByteArray();
