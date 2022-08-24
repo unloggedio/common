@@ -22,7 +22,7 @@ public class FilteredDataEventsRequest {
         FilteredDataEventsRequest cloneRequest = new FilteredDataEventsRequest();
 
         cloneRequest.setNanotime(request.getNanotime());
-        cloneRequest.setThreadId(request.getNanotime());
+        cloneRequest.setThreadId(request.getThreadId());
         cloneRequest.setProbeId(request.getProbeId());
         cloneRequest.setSessionId(request.getSessionId());
         cloneRequest.setDebugPoints(request.getDebugPoints());
