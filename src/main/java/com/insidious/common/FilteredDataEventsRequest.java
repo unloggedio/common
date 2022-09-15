@@ -2,12 +2,10 @@ package com.insidious.common;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Data
 public class FilteredDataEventsRequest {
-    @NotBlank
     private String sessionId;
 
     private long threadId = -1;
