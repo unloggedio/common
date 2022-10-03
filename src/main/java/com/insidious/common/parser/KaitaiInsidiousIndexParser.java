@@ -3,8 +3,9 @@
 package com.insidious.common.parser;
 
 import io.kaitai.struct.ByteBufferKaitaiStream;
-import io.kaitai.struct.KaitaiStruct;
 import io.kaitai.struct.KaitaiStream;
+import io.kaitai.struct.KaitaiStruct;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -29,7 +30,7 @@ public class KaitaiInsidiousIndexParser extends KaitaiStruct {
     }
     private void _read() {
         this.indexFileCount = this._io.readU4be();
-        indexFiles = new ArrayList<IndexedFile>(((Number) (indexFileCount())).intValue());
+        this.indexFiles = new ArrayList<IndexedFile>();
         for (int i = 0; i < indexFileCount(); i++) {
             this.indexFiles.add(new IndexedFile(this._io, this, _root));
         }
@@ -92,11 +93,11 @@ public class KaitaiInsidiousIndexParser extends KaitaiStruct {
             this(_io, null, null);
         }
 
-        public StrWithLen(KaitaiStream _io, KaitaiInsidiousIndexParser.IndexedFile _parent) {
+        public StrWithLen(KaitaiStream _io, IndexedFile _parent) {
             this(_io, _parent, null);
         }
 
-        public StrWithLen(KaitaiStream _io, KaitaiInsidiousIndexParser.IndexedFile _parent, KaitaiInsidiousIndexParser _root) {
+        public StrWithLen(KaitaiStream _io, IndexedFile _parent, KaitaiInsidiousIndexParser _root) {
             super(_io);
             this._parent = _parent;
             this._root = _root;
@@ -109,11 +110,11 @@ public class KaitaiInsidiousIndexParser extends KaitaiStruct {
         private long len;
         private byte[] value;
         private KaitaiInsidiousIndexParser _root;
-        private KaitaiInsidiousIndexParser.IndexedFile _parent;
+        private IndexedFile _parent;
         public long len() { return len; }
         public byte[] value() { return value; }
         public KaitaiInsidiousIndexParser _root() { return _root; }
-        public KaitaiInsidiousIndexParser.IndexedFile _parent() { return _parent; }
+        public IndexedFile _parent() { return _parent; }
     }
     private long indexFileCount;
     private ArrayList<IndexedFile> indexFiles;
