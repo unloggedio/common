@@ -1,1 +1,1 @@
-kaitai-struct-compiler --target java  --java-package com.insidious.agent.logging.perthread ../kaitai/kaitai_insidious_event_parser.ksy
+kaitai-struct-compiler --target java  --java-package com.insidious.common.parser ../kaitai/kaitai_insidious_event_parser.ksy
