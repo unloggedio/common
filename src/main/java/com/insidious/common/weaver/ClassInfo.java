@@ -158,4 +158,16 @@ public class ClassInfo {
 
         return new byte[0];
     }
+
+    public String[] getInterfaces() {
+        return interfaces;
+    }
+
+    public String getSuperName() {
+        return superName;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
 }
