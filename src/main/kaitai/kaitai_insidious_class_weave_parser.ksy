@@ -75,7 +75,8 @@ types:
       - id: instruction_index
         type: u4be
       - id: event_type
-        type: str_with_len
+        type: u4be
+        enum: event_type
       - id: value_descriptor
         type: str_with_len
       - id: attributes
@@ -88,3 +89,56 @@ types:
         size: len
         type: str
         encoding: UTF-8
+enums:
+  event_type:
+    0: reserved
+    1: method_entry
+    2: method_param
+    3: method_object_initialized
+    4: method_normal_exit
+    5: method_throw
+    6: method_exceptional_exit
+    7: call
+    8: call_param
+    9: call_return
+    10: catch_label
+    11: catch
+    12: new_object
+    13: new_object_created
+    14: get_instance_field
+    15: get_instance_field_result
+    16: get_static_field
+    17: put_instance_field
+    18: put_instance_field_value
+    19: put_instance_field_before_initialization
+    20: put_static_field
+    21: array_load
+    22: array_load_index
+    23: array_load_result
+    24: array_store
+    25: array_store_index
+    26: array_store_value
+    27: new_array
+    28: new_array_result
+    29: multi_new_array
+    30: multi_new_array_owner
+    31: multi_new_array_element
+    32: array_length
+    33: array_length_result
+    34: monitor_enter
+    35: monitor_enter_result
+    36: monitor_exit
+    37: object_constant_load
+    38: object_instanceof
+    39: object_instanceof_result
+    40: invoke_dynamic
+    41: invoke_dynamic_param
+    42: invoke_dynamic_result
+    43: label
+    44: jump
+    45: local_load
+    46: local_store
+    47: local_increment
+    48: ret
+    49: divide
+    50: line_number

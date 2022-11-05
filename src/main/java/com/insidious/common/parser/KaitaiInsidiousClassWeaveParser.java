@@ -6,12 +6,78 @@ import io.kaitai.struct.ByteBufferKaitaiStream;
 import io.kaitai.struct.KaitaiStruct;
 import io.kaitai.struct.KaitaiStream;
 import java.io.IOException;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.nio.charset.Charset;
 
 public class KaitaiInsidiousClassWeaveParser extends KaitaiStruct {
     public static KaitaiInsidiousClassWeaveParser fromFile(String fileName) throws IOException {
         return new KaitaiInsidiousClassWeaveParser(new ByteBufferKaitaiStream(fileName));
+    }
+
+    public enum EventType {
+        RESERVED(0),
+        METHOD_ENTRY(1),
+        METHOD_PARAM(2),
+        METHOD_OBJECT_INITIALIZED(3),
+        METHOD_NORMAL_EXIT(4),
+        METHOD_THROW(5),
+        METHOD_EXCEPTIONAL_EXIT(6),
+        CALL(7),
+        CALL_PARAM(8),
+        CALL_RETURN(9),
+        CATCH_LABEL(10),
+        CATCH(11),
+        NEW_OBJECT(12),
+        NEW_OBJECT_CREATED(13),
+        GET_INSTANCE_FIELD(14),
+        GET_INSTANCE_FIELD_RESULT(15),
+        GET_STATIC_FIELD(16),
+        PUT_INSTANCE_FIELD(17),
+        PUT_INSTANCE_FIELD_VALUE(18),
+        PUT_INSTANCE_FIELD_BEFORE_INITIALIZATION(19),
+        PUT_STATIC_FIELD(20),
+        ARRAY_LOAD(21),
+        ARRAY_LOAD_INDEX(22),
+        ARRAY_LOAD_RESULT(23),
+        ARRAY_STORE(24),
+        ARRAY_STORE_INDEX(25),
+        ARRAY_STORE_VALUE(26),
+        NEW_ARRAY(27),
+        NEW_ARRAY_RESULT(28),
+        MULTI_NEW_ARRAY(29),
+        MULTI_NEW_ARRAY_OWNER(30),
+        MULTI_NEW_ARRAY_ELEMENT(31),
+        ARRAY_LENGTH(32),
+        ARRAY_LENGTH_RESULT(33),
+        MONITOR_ENTER(34),
+        MONITOR_ENTER_RESULT(35),
+        MONITOR_EXIT(36),
+        OBJECT_CONSTANT_LOAD(37),
+        OBJECT_INSTANCEOF(38),
+        OBJECT_INSTANCEOF_RESULT(39),
+        INVOKE_DYNAMIC(40),
+        INVOKE_DYNAMIC_PARAM(41),
+        INVOKE_DYNAMIC_RESULT(42),
+        LABEL(43),
+        JUMP(44),
+        LOCAL_LOAD(45),
+        LOCAL_STORE(46),
+        LOCAL_INCREMENT(47),
+        RET(48),
+        DIVIDE(49),
+        LINE_NUMBER(50);
+
+        private final long id;
+        EventType(long id) { this.id = id; }
+        public long id() { return id; }
+        private static final Map<Long, EventType> byId = new HashMap<Long, EventType>(51);
+        static {
+            for (EventType e : EventType.values())
+                byId.put(e.id(), e);
+        }
+        public static EventType byId(long id) { return byId.get(id); }
     }
 
     public KaitaiInsidiousClassWeaveParser(KaitaiStream _io) {
@@ -30,7 +96,7 @@ public class KaitaiInsidiousClassWeaveParser extends KaitaiStruct {
     }
     private void _read() {
         this.classCount = this._io.readU4be();
-        classInfo = new ArrayList<ClassInfo>(((Number) (classCount())).intValue());
+        this.classInfo = new ArrayList<ClassInfo>();
         for (int i = 0; i < classCount(); i++) {
             this.classInfo.add(new ClassInfo(this._io, this, _root));
         }
@@ -63,19 +129,19 @@ public class KaitaiInsidiousClassWeaveParser extends KaitaiStruct {
             this.hash = new StrWithLen(this._io, this, _root);
             this.classLoaderIdentifier = new StrWithLen(this._io, this, _root);
             this.interfaceCount = this._io.readU4be();
-            interfaceNames = new ArrayList<StrWithLen>(((Number) (interfaceCount())).intValue());
+            this.interfaceNames = new ArrayList<StrWithLen>();
             for (int i = 0; i < interfaceCount(); i++) {
                 this.interfaceNames.add(new StrWithLen(this._io, this, _root));
             }
             this.signature = new StrWithLen(this._io, this, _root);
             this.superclass = new StrWithLen(this._io, this, _root);
             this.probeCount = this._io.readU4be();
-            probeList = new ArrayList<ProbeInfo>(((Number) (probeCount())).intValue());
+            this.probeList = new ArrayList<ProbeInfo>();
             for (int i = 0; i < probeCount(); i++) {
                 this.probeList.add(new ProbeInfo(this._io, this, _root));
             }
             this.methodCount = this._io.readU4be();
-            methodList = new ArrayList<MethodInfo>(((Number) (methodCount())).intValue());
+            this.methodList = new ArrayList<MethodInfo>();
             for (int i = 0; i < methodCount(); i++) {
                 this.methodList.add(new MethodInfo(this._io, this, _root));
             }
@@ -187,7 +253,7 @@ public class KaitaiInsidiousClassWeaveParser extends KaitaiStruct {
             this.dataId = this._io.readU4be();
             this.lineNumber = this._io.readU4be();
             this.instructionIndex = this._io.readU4be();
-            this.eventType = new StrWithLen(this._io, this, _root);
+            this.eventType = KaitaiInsidiousClassWeaveParser.EventType.byId(this._io.readU4be());
             this.valueDescriptor = new StrWithLen(this._io, this, _root);
             this.attributes = new StrWithLen(this._io, this, _root);
         }
@@ -196,7 +262,7 @@ public class KaitaiInsidiousClassWeaveParser extends KaitaiStruct {
         private long dataId;
         private long lineNumber;
         private long instructionIndex;
-        private StrWithLen eventType;
+        private EventType eventType;
         private StrWithLen valueDescriptor;
         private StrWithLen attributes;
         private KaitaiInsidiousClassWeaveParser _root;
@@ -206,7 +272,7 @@ public class KaitaiInsidiousClassWeaveParser extends KaitaiStruct {
         public long dataId() { return dataId; }
         public long lineNumber() { return lineNumber; }
         public long instructionIndex() { return instructionIndex; }
-        public StrWithLen eventType() { return eventType; }
+        public EventType eventType() { return eventType; }
         public StrWithLen valueDescriptor() { return valueDescriptor; }
         public StrWithLen attributes() { return attributes; }
         public KaitaiInsidiousClassWeaveParser _root() { return _root; }
