@@ -16,6 +16,35 @@ public class KaitaiInsidiousClassWeaveParser extends KaitaiStruct {
         return new KaitaiInsidiousClassWeaveParser(new ByteBufferKaitaiStream(fileName));
     }
 
+    public enum Descriptor {
+        BOOLEAN(0),
+        BYTE(1),
+        CHAR(2),
+        SHORT(3),
+        INTEGER(4),
+        LONG(5),
+        FLOAT(6),
+        DOUBLE(7),
+        INTEGEROBJECT(8),
+        CHARACTEROBJECT(9),
+        BOOLEANOBJECT(10),
+        FLOATOBJECT(11),
+        DOUBLEOBJECT(12),
+        SHORTOBJECT(13),
+        OBJECT(14),
+        VOID(15);
+
+        private final long id;
+        Descriptor(long id) { this.id = id; }
+        public long id() { return id; }
+        private static final Map<Long, Descriptor> byId = new HashMap<Long, Descriptor>(16);
+        static {
+            for (Descriptor e : Descriptor.values())
+                byId.put(e.id(), e);
+        }
+        public static Descriptor byId(long id) { return byId.get(id); }
+    }
+
     public enum EventType {
         RESERVED(0),
         METHOD_ENTRY(1),
@@ -254,7 +283,7 @@ public class KaitaiInsidiousClassWeaveParser extends KaitaiStruct {
             this.lineNumber = this._io.readU4be();
             this.instructionIndex = this._io.readU4be();
             this.eventType = KaitaiInsidiousClassWeaveParser.EventType.byId(this._io.readU4be());
-            this.valueDescriptor = new StrWithLen(this._io, this, _root);
+            this.valueDescriptor = KaitaiInsidiousClassWeaveParser.Descriptor.byId(this._io.readU4be());
             this.attributes = new StrWithLen(this._io, this, _root);
         }
         private long classId;
@@ -263,7 +292,7 @@ public class KaitaiInsidiousClassWeaveParser extends KaitaiStruct {
         private long lineNumber;
         private long instructionIndex;
         private EventType eventType;
-        private StrWithLen valueDescriptor;
+        private Descriptor valueDescriptor;
         private StrWithLen attributes;
         private KaitaiInsidiousClassWeaveParser _root;
         private KaitaiInsidiousClassWeaveParser.ClassInfo _parent;
@@ -273,7 +302,7 @@ public class KaitaiInsidiousClassWeaveParser extends KaitaiStruct {
         public long lineNumber() { return lineNumber; }
         public long instructionIndex() { return instructionIndex; }
         public EventType eventType() { return eventType; }
-        public StrWithLen valueDescriptor() { return valueDescriptor; }
+        public Descriptor valueDescriptor() { return valueDescriptor; }
         public StrWithLen attributes() { return attributes; }
         public KaitaiInsidiousClassWeaveParser _root() { return _root; }
         public KaitaiInsidiousClassWeaveParser.ClassInfo _parent() { return _parent; }

@@ -215,8 +215,10 @@ public class DataInfo {
 //        dao.writeInt(eventType.toString().getBytes().length);
 //        dao.write(eventType.toString().getBytes());
 
-        dao.writeInt(valueDesc.getString().getBytes().length);
-        dao.write(valueDesc.getString().getBytes());
+        dao.writeInt(valueDesc.ordinal());
+//        dao.writeInt(valueDesc.getString().getBytes().length);
+//        dao.write(valueDesc.getString().getBytes());
+
         dao.writeInt(attributes.getBytes().length);
         dao.write(attributes.getBytes());
 

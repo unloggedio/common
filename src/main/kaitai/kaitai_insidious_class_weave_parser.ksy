@@ -78,7 +78,8 @@ types:
         type: u4be
         enum: event_type
       - id: value_descriptor
-        type: str_with_len
+        type: u4be
+        enum: descriptor
       - id: attributes
         type: str_with_len
   str_with_len:
@@ -90,6 +91,23 @@ types:
         type: str
         encoding: UTF-8
 enums:
+  descriptor:
+    0: boolean
+    1: byte
+    2: char
+    3: short
+    4: integer
+    5: long
+    6: float
+    7: double
+    8: integerobject
+    9: characterobject
+    10: booleanobject
+    11: floatobject
+    12: doubleobject
+    13: shortobject
+    14: object
+    15: void
   event_type:
     0: reserved
     1: method_entry
