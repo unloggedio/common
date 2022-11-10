@@ -1,6 +1,9 @@
 package com.insidious.common.weaver;
 
 
+import com.googlecode.cqengine.attribute.SimpleAttribute;
+import com.googlecode.cqengine.query.option.QueryOptions;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -8,6 +11,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ClassInfo {
+    public static final SimpleAttribute<ClassInfo, Integer> CLASS_ID =
+            new SimpleAttribute<ClassInfo, Integer>("classId") {
+                public Integer getValue(ClassInfo probeInfoDocument, QueryOptions queryOptions) {
+                    return probeInfoDocument.classId;
+                }
+            };
+
     private static final String SEPARATOR = ",";
     private String[] interfaces;
     private String superName;
