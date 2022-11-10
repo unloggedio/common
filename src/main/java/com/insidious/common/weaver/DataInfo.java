@@ -7,13 +7,14 @@ import com.googlecode.cqengine.query.option.QueryOptions;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Scanner;
 
 /**
  * This object is to record attributes of a data ID.
  */
-public class DataInfo {
+public class DataInfo implements Serializable {
 
     public static final SimpleAttribute<DataInfo, Integer> PROBE_ID =
             new SimpleAttribute<DataInfo, Integer>("dataId") {
