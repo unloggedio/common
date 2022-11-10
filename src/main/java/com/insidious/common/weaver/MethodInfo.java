@@ -6,13 +6,14 @@ import com.googlecode.cqengine.query.option.QueryOptions;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Scanner;
 
 
 /**
  * This object is to record the information of a method processed by a weaver.
  */
-public class MethodInfo {
+public class MethodInfo implements Serializable {
 
     public static final SimpleAttribute<MethodInfo, Integer> METHOD_ID =
             new SimpleAttribute<MethodInfo, Integer>("methodId") {

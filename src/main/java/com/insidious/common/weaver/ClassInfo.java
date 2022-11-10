@@ -7,10 +7,11 @@ import com.googlecode.cqengine.query.option.QueryOptions;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Scanner;
 
-public class ClassInfo {
+public class ClassInfo implements Serializable {
     public static final SimpleAttribute<ClassInfo, Integer> CLASS_ID =
             new SimpleAttribute<ClassInfo, Integer>("classId") {
                 public Integer getValue(ClassInfo probeInfoDocument, QueryOptions queryOptions) {
@@ -27,7 +28,6 @@ public class ClassInfo {
     private String container;
     private String filename;
     private String className;
-    private List<DataInfo> dataInfoList;
     private LogLevel loglevel;
     private String hash;
     private String classLoaderIdentifier;
@@ -61,15 +61,6 @@ public class ClassInfo {
         this.superName = superName;
         this.signature = signature;
     }
-
-    public List<DataInfo> getDataInfoList() {
-        return dataInfoList;
-    }
-
-    public void setDataInfoList(List<DataInfo> dataInfoList) {
-        this.dataInfoList = dataInfoList;
-    }
-
     public int getClassId() {
         return classId;
     }
