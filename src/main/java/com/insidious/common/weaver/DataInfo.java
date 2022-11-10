@@ -1,6 +1,9 @@
 package com.insidious.common.weaver;
 
 
+import com.googlecode.cqengine.attribute.SimpleAttribute;
+import com.googlecode.cqengine.query.option.QueryOptions;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -11,6 +14,13 @@ import java.util.Scanner;
  * This object is to record attributes of a data ID.
  */
 public class DataInfo {
+
+    public static final SimpleAttribute<DataInfo, Integer> PROBE_ID =
+            new SimpleAttribute<DataInfo, Integer>("dataId") {
+                public Integer getValue(DataInfo probeInfoDocument, QueryOptions queryOptions) {
+                    return probeInfoDocument.dataId;
+                }
+            };
 
     private final static String SEPARATOR = ",";
     private final static char ATTRIBUTE_KEYVALUE_SEPARATOR = '=';
@@ -52,27 +62,7 @@ public class DataInfo {
         this.attributes = attributes;
     }
 
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
-    public Map<String, String> getAttributesMap() {
-        return attributesMap;
-    }
-
-    public void setAttributesMap(Map<String, String> attributesMap) {
-        this.attributesMap = attributesMap;
-    }
-
     public DataInfo() {
-    }
-
-    public int getClassId() {
-        return classId;
     }
 
     /**
@@ -99,6 +89,26 @@ public class DataInfo {
         String attributes = b.toString();
         sc.close();
         return new DataInfo(classId, methodId, dataId, line, instructionIndex, t, d, attributes);
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public Map<String, String> getAttributesMap() {
+        return attributesMap;
+    }
+
+    public void setAttributesMap(Map<String, String> attributesMap) {
+        this.attributesMap = attributesMap;
+    }
+
+    public int getClassId() {
+        return classId;
     }
 
     /**
