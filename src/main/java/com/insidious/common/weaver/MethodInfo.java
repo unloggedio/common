@@ -1,5 +1,8 @@
 package com.insidious.common.weaver;
 
+import com.googlecode.cqengine.attribute.SimpleAttribute;
+import com.googlecode.cqengine.query.option.QueryOptions;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -10,6 +13,13 @@ import java.util.Scanner;
  * This object is to record the information of a method processed by a weaver.
  */
 public class MethodInfo {
+
+    public static final SimpleAttribute<MethodInfo, Integer> METHOD_ID =
+            new SimpleAttribute<MethodInfo, Integer>("methodId") {
+                public Integer getValue(MethodInfo probeInfoDocument, QueryOptions queryOptions) {
+                    return probeInfoDocument.methodId;
+                }
+            };
 
     private static final String SEPARATOR = ",";
 
