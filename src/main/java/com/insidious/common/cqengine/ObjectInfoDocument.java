@@ -3,7 +3,9 @@ package com.insidious.common.cqengine;
 import com.googlecode.cqengine.attribute.SimpleAttribute;
 import com.googlecode.cqengine.query.option.QueryOptions;
 
-public class ObjectInfoDocument {
+import java.io.Serializable;
+
+public class ObjectInfoDocument implements Serializable {
 
     public static final SimpleAttribute<ObjectInfoDocument, Integer> OBJECT_TYPE_ID =
             new SimpleAttribute<ObjectInfoDocument, Integer>("objectTypeId") {

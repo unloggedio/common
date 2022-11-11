@@ -3,7 +3,9 @@ package com.insidious.common.cqengine;
 import com.googlecode.cqengine.attribute.SimpleAttribute;
 import com.googlecode.cqengine.query.option.QueryOptions;
 
-public class StringInfoDocument {
+import java.io.Serializable;
+
+public class StringInfoDocument implements Serializable {
 
     public static final SimpleAttribute<StringInfoDocument, String> STRING_VALUE =
             new SimpleAttribute<StringInfoDocument, String>("stringValue") {
