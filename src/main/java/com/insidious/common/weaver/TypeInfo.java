@@ -86,7 +86,7 @@ public class TypeInfo implements Serializable {
         return interfaces;
     }
 
-    public long getTypeId() {
+    public int getTypeId() {
         return typeId;
     }
 
