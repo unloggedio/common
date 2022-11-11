@@ -20,7 +20,6 @@ public class TypeInfo implements Serializable {
 
 
     private final int[] interfaces;
-    String sessionId;
     private int typeId;
     private String typeNameFromClass;
     private String classLocation;
@@ -28,10 +27,9 @@ public class TypeInfo implements Serializable {
     private int componentType;
     private String classLoaderIdentifier;
 
-    public TypeInfo(String sessionId, int typeId, String typeNameFromClass,
+    public TypeInfo(int typeId, String typeNameFromClass,
                     String classLocation, int superClass,
                     int componentType, String classLoaderIdentifier, int[] interfaces) {
-        this.sessionId = sessionId;
         this.typeId = typeId;
         this.typeNameFromClass = typeNameFromClass;
         this.classLocation = classLocation;
@@ -76,9 +74,8 @@ public class TypeInfo implements Serializable {
                 interfaces[i] = interfaceId;
             }
 
-            return new TypeInfo("", typeId, typeName,
-                    classLocation, superClass, componentClass, classLoaderIdentifier
-                    , interfaces);
+            return new TypeInfo(typeId, typeName, classLocation, superClass,
+                    componentClass, classLoaderIdentifier, interfaces);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
@@ -87,14 +84,6 @@ public class TypeInfo implements Serializable {
 
     public int[] getInterfaces() {
         return interfaces;
-    }
-
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
     }
 
     public long getTypeId() {
