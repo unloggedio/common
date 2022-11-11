@@ -1,23 +1,34 @@
 package com.insidious.common.weaver;
 
 
+import com.googlecode.cqengine.attribute.SimpleAttribute;
+import com.googlecode.cqengine.query.option.QueryOptions;
+
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.Serializable;
 
-public class TypeInfo {
+public class TypeInfo implements Serializable {
+
+    public static final SimpleAttribute<TypeInfo, Integer> TYPE_ID =
+            new SimpleAttribute<TypeInfo, Integer>("typeId") {
+                public Integer getValue(TypeInfo probeInfoDocument, QueryOptions queryOptions) {
+                    return probeInfoDocument.typeId;
+                }
+            };
+
 
     private final int[] interfaces;
-    String id;
     String sessionId;
-    private long typeId;
+    private int typeId;
     private String typeNameFromClass;
     private String classLocation;
     private int superClass;
     private int componentType;
     private String classLoaderIdentifier;
 
-    public TypeInfo(String sessionId, long typeId, String typeNameFromClass,
+    public TypeInfo(String sessionId, int typeId, String typeNameFromClass,
                     String classLocation, int superClass,
                     int componentType, String classLoaderIdentifier, int[] interfaces) {
         this.sessionId = sessionId;
@@ -28,10 +39,6 @@ public class TypeInfo {
         this.componentType = componentType;
         this.classLoaderIdentifier = classLoaderIdentifier;
         this.interfaces = interfaces;
-    }
-
-    public int[] getInterfaces() {
-        return interfaces;
     }
 
     public static TypeInfo fromBytes(byte[] typeBytes) {
@@ -62,7 +69,6 @@ public class TypeInfo {
             String classLoaderIdentifier = new String(classLoaderIdentifierBytes);
 
 
-
             int interfaceCount = dis.readInt();
             int[] interfaces = new int[interfaceCount];
             for (int i = 0; i < interfaceCount; i++) {
@@ -70,22 +76,17 @@ public class TypeInfo {
                 interfaces[i] = interfaceId;
             }
 
-            TypeInfo typeInfo = new TypeInfo("", typeId, typeName,
+            return new TypeInfo("", typeId, typeName,
                     classLocation, superClass, componentClass, classLoaderIdentifier
-            , interfaces);
-            return typeInfo;
+                    , interfaces);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
         }
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public int[] getInterfaces() {
+        return interfaces;
     }
 
     public String getSessionId() {
