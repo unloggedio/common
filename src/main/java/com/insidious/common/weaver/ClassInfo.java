@@ -23,7 +23,6 @@ public class ClassInfo implements Serializable {
     private String[] interfaces;
     private String superName;
     private String signature;
-    String sessionId;
     private int classId;
     private String container;
     private String filename;
@@ -31,6 +30,15 @@ public class ClassInfo implements Serializable {
     private LogLevel loglevel;
     private String hash;
     private String classLoaderIdentifier;
+    private boolean isEnum;
+
+    public boolean isEnum() {
+        return isEnum;
+    }
+
+    public void setEnum(boolean anEnum) {
+        isEnum = anEnum;
+    }
 
     public ClassInfo() {
     }
@@ -87,14 +95,6 @@ public class ClassInfo implements Serializable {
 
     public String getClassLoaderIdentifier() {
         return classLoaderIdentifier;
-    }
-
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
     }
 
     public byte[] toBytes() {
