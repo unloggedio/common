@@ -25,7 +25,7 @@ types:
       - id: timestamp
         type: u8be
       - id: probe_id
-        type: u4be
+        type: s4be
       - id: value_id
         type: u8be
       - id: len_serialized_data

@@ -140,14 +140,14 @@ public class KaitaiInsidiousEventParser extends KaitaiStruct {
         private void _read() {
             this.eventId = this._io.readU8be();
             this.timestamp = this._io.readU8be();
-            this.probeId = this._io.readU4be();
+            this.probeId = this._io.readS4be();
             this.valueId = this._io.readU8be();
             this.lenSerializedData = this._io.readU4be();
             this.serializedData = this._io.readBytes(lenSerializedData());
         }
         private long eventId;
         private long timestamp;
-        private long probeId;
+        private int probeId;
         private long valueId;
         private long lenSerializedData;
         private byte[] serializedData;
@@ -155,7 +155,7 @@ public class KaitaiInsidiousEventParser extends KaitaiStruct {
         private KaitaiInsidiousEventParser.Block _parent;
         public long eventId() { return eventId; }
         public long timestamp() { return timestamp; }
-        public long probeId() { return probeId; }
+        public int probeId() { return probeId; }
         public long valueId() { return valueId; }
         public long lenSerializedData() { return lenSerializedData; }
         public byte[] serializedData() { return serializedData; }
