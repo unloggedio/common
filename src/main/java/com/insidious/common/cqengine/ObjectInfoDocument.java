@@ -2,10 +2,16 @@ package com.insidious.common.cqengine;
 
 import com.googlecode.cqengine.attribute.SimpleAttribute;
 import com.googlecode.cqengine.query.option.QueryOptions;
+import net.openhft.chronicle.bytes.BytesIn;
+import net.openhft.chronicle.bytes.BytesMarshallable;
+import net.openhft.chronicle.bytes.BytesOut;
+import net.openhft.chronicle.core.io.IORuntimeException;
 
 import java.io.Serializable;
+import java.nio.BufferOverflowException;
+import java.nio.BufferUnderflowException;
 
-public class ObjectInfoDocument implements Serializable {
+public class ObjectInfoDocument implements Serializable, BytesMarshallable {
 
     public static final SimpleAttribute<ObjectInfoDocument, Integer> OBJECT_TYPE_ID =
             new SimpleAttribute<ObjectInfoDocument, Integer>("objectTypeId") {
@@ -45,5 +51,18 @@ public class ObjectInfoDocument implements Serializable {
 
     public void setTypeId(int typeId) {
         this.typeId = typeId;
+    }
+
+    @Override
+    public void readMarshallable(BytesIn bytes) throws IORuntimeException, BufferUnderflowException, IllegalStateException {
+        objectId = bytes.readLong();
+        typeId = bytes.readInt();
+//        BytesMarshallable.super.readMarshallable(bytes);
+    }
+
+    @Override
+    public void writeMarshallable(BytesOut bytes) throws IllegalStateException, BufferOverflowException, BufferUnderflowException, ArithmeticException {
+        bytes.writeLong(objectId);
+        bytes.writeInt(typeId);
     }
 }
