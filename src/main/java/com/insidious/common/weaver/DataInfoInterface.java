@@ -1,31 +1,41 @@
 package com.insidious.common.weaver;
 
+import net.openhft.chronicle.values.MaxUtf8Length;
+
 public interface DataInfoInterface {
     int getClassId();
-    int getIndex();
-    int getMethodId();
-    int getDataId();
-    int getLine();
-    int getInstructionIndex();
-    EventType getEventType();
-    Descriptor getValueDesc();
-    String getAttributes();
-    void setIndex(int index);
-
 
     void setClassId(int classId);
 
+    int getIndex();
+
+    void setIndex(int index);
+
+    int getMethodId();
+
     void setMethodId(int methodId);
+
+    int getDataId();
 
     void setDataId(int dataId);
 
+    int getLine();
+
     void setLine(int line);
+
+    int getInstructionIndex();
 
     void setInstructionIndex(int instructionIndex);
 
+    EventType getEventType();
+
     void setEventType(EventType eventType);
+
+    Descriptor getValueDesc();
 
     void setValueDesc(Descriptor descriptor);
 
-    void setAttributes(String attributes);
+    String getAttributes();
+
+    void setAttributes(@MaxUtf8Length(value = 100) String attributes);
 }
