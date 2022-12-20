@@ -4,7 +4,7 @@
 
     <groupId>video.bug</groupId>
     <artifactId>common</artifactId>
-    <version>1.3.23</version>
+    <version>1.3.24</version>
     <distributionManagement>
 <!--        <snapshotRepository>-->
 <!--            <id>ossrh</id>-->

@@ -14,7 +14,7 @@ import java.util.Scanner;
 /**
  * This object is to record attributes of a data ID.
  */
-public class DataInfo implements Serializable {
+public class DataInfo implements Serializable, DataInfoInterface {
 
     public static final SimpleAttribute<DataInfo, Integer> PROBE_ID =
             new SimpleAttribute<DataInfo, Integer>("dataId") {
@@ -92,10 +92,12 @@ public class DataInfo implements Serializable {
         return new DataInfo(classId, methodId, dataId, line, instructionIndex, t, d, attributes);
     }
 
+    @Override
     public int getIndex() {
         return index;
     }
 
+    @Override
     public void setIndex(int index) {
         this.index = index;
     }
@@ -108,57 +110,105 @@ public class DataInfo implements Serializable {
         this.attributesMap = attributesMap;
     }
 
+    @Override
     public int getClassId() {
         return classId;
+    }
+
+    @Override
+    public void setClassId(int classId) {
+        this.classId = classId;
     }
 
     /**
      * @return the method ID.
      */
+    @Override
     public int getMethodId() {
         return methodId;
+    }
+
+    @Override
+    public void setMethodId(int methodId) {
+        this.methodId = methodId;
     }
 
     /**
      * @return the data ID.
      */
+    @Override
     public int getDataId() {
         return dataId;
+    }
+
+    @Override
+    public void setDataId(int dataId) {
+        this.dataId = dataId;
     }
 
     /**
      * @return the line number.
      */
+    @Override
     public int getLine() {
         return line;
+    }
+
+    @Override
+    public void setLine(int line) {
+        this.line = line;
     }
 
     /**
      * @return the location of the bytecode instruction in the ASM's InsnList.
      */
+    @Override
     public int getInstructionIndex() {
         return instructionIndex;
+    }
+
+    @Override
+    public void setInstructionIndex(int instructionIndex) {
+        this.instructionIndex = instructionIndex;
     }
 
     /**
      * @return the event type.
      */
+    @Override
     public EventType getEventType() {
         return eventType;
+    }
+
+    @Override
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
     }
 
     /**
      * @return the value type observed by the event.
      */
+    @Override
     public Descriptor getValueDesc() {
         return valueDesc;
+    }
+
+    @Override
+    public void setValueDesc(Descriptor descriptor) {
+        this.valueDesc = descriptor;
     }
 
     /**
      * @return additional attributes statically obtained from the instruction.
      */
+    @Override
     public String getAttributes() {
         return attributes;
+    }
+
+    @Override
+    public void setAttributes(String attributes) {
+        this.attributes = attributes;
     }
 
     /**
