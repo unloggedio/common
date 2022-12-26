@@ -3,18 +3,24 @@ package com.insidious.common.weaver;
 
 import com.googlecode.cqengine.attribute.SimpleAttribute;
 import com.googlecode.cqengine.query.option.QueryOptions;
+import net.openhft.chronicle.bytes.BytesIn;
+import net.openhft.chronicle.bytes.BytesMarshallable;
+import net.openhft.chronicle.bytes.BytesOut;
+import net.openhft.chronicle.core.io.IORuntimeException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.BufferOverflowException;
+import java.nio.BufferUnderflowException;
 import java.util.Map;
 import java.util.Scanner;
 
 /**
  * This object is to record attributes of a data ID.
  */
-public class DataInfo implements Serializable, DataInfoInterface {
+public class DataInfo implements Serializable, BytesMarshallable {
 
     public static final SimpleAttribute<DataInfo, Integer> PROBE_ID =
             new SimpleAttribute<DataInfo, Integer>("dataId") {
@@ -93,11 +99,41 @@ public class DataInfo implements Serializable, DataInfoInterface {
     }
 
     @Override
+    public void readMarshallable(BytesIn bytes) throws IORuntimeException, BufferUnderflowException, IllegalStateException {
+        classId = bytes.readInt();
+        methodId = bytes.readInt();
+        dataId = bytes.readInt();
+        index = bytes.readInt();
+        line = bytes.readInt();
+        instructionIndex = bytes.readInt();
+        eventType = EventType.values()[bytes.readInt()];
+        valueDesc = Descriptor.values()[bytes.readInt()];
+        int attrLength = bytes.readInt();
+        byte[] attrBytes = new byte[attrLength];
+        bytes.read(attrBytes);
+        attributes = new String(attrBytes);
+//        BytesMarshallable.super.readMarshallable(bytes);
+    }
+
+    @Override
+    public void writeMarshallable(BytesOut bytes) throws IllegalStateException, BufferOverflowException, BufferUnderflowException, ArithmeticException {
+        bytes.writeInt(classId);
+        bytes.writeInt(methodId);
+        bytes.writeInt(dataId);
+        bytes.writeInt(index);
+        bytes.writeInt(line);
+        bytes.writeInt(instructionIndex);
+        bytes.writeInt(eventType.ordinal());
+        bytes.writeInt(valueDesc.ordinal());
+        bytes.writeInt(attributes.length());
+        bytes.write(attributes);
+//        BytesMarshallable.super.writeMarshallable(bytes);
+    }
+
     public int getIndex() {
         return index;
     }
 
-    @Override
     public void setIndex(int index) {
         this.index = index;
     }
@@ -110,12 +146,10 @@ public class DataInfo implements Serializable, DataInfoInterface {
         this.attributesMap = attributesMap;
     }
 
-    @Override
     public int getClassId() {
         return classId;
     }
 
-    @Override
     public void setClassId(int classId) {
         this.classId = classId;
     }
@@ -123,12 +157,10 @@ public class DataInfo implements Serializable, DataInfoInterface {
     /**
      * @return the method ID.
      */
-    @Override
     public int getMethodId() {
         return methodId;
     }
 
-    @Override
     public void setMethodId(int methodId) {
         this.methodId = methodId;
     }
@@ -136,12 +168,10 @@ public class DataInfo implements Serializable, DataInfoInterface {
     /**
      * @return the data ID.
      */
-    @Override
     public int getDataId() {
         return dataId;
     }
 
-    @Override
     public void setDataId(int dataId) {
         this.dataId = dataId;
     }
@@ -149,12 +179,10 @@ public class DataInfo implements Serializable, DataInfoInterface {
     /**
      * @return the line number.
      */
-    @Override
     public int getLine() {
         return line;
     }
 
-    @Override
     public void setLine(int line) {
         this.line = line;
     }
@@ -162,12 +190,10 @@ public class DataInfo implements Serializable, DataInfoInterface {
     /**
      * @return the location of the bytecode instruction in the ASM's InsnList.
      */
-    @Override
     public int getInstructionIndex() {
         return instructionIndex;
     }
 
-    @Override
     public void setInstructionIndex(int instructionIndex) {
         this.instructionIndex = instructionIndex;
     }
@@ -175,12 +201,10 @@ public class DataInfo implements Serializable, DataInfoInterface {
     /**
      * @return the event type.
      */
-    @Override
     public EventType getEventType() {
         return eventType;
     }
 
-    @Override
     public void setEventType(EventType eventType) {
         this.eventType = eventType;
     }
@@ -188,12 +212,10 @@ public class DataInfo implements Serializable, DataInfoInterface {
     /**
      * @return the value type observed by the event.
      */
-    @Override
     public Descriptor getValueDesc() {
         return valueDesc;
     }
 
-    @Override
     public void setValueDesc(Descriptor descriptor) {
         this.valueDesc = descriptor;
     }
@@ -201,12 +223,10 @@ public class DataInfo implements Serializable, DataInfoInterface {
     /**
      * @return additional attributes statically obtained from the instruction.
      */
-    @Override
     public String getAttributes() {
         return attributes;
     }
 
-    @Override
     public void setAttributes(String attributes) {
         this.attributes = attributes;
     }
