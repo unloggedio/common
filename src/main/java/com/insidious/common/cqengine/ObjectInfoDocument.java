@@ -5,10 +5,7 @@ import com.googlecode.cqengine.query.option.QueryOptions;
 import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesMarshallable;
 import net.openhft.chronicle.bytes.BytesOut;
-import net.openhft.chronicle.bytes.BytesStore;
-import net.openhft.chronicle.bytes.ref.AbstractReference;
 import net.openhft.chronicle.core.io.IORuntimeException;
-import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.nio.BufferOverflowException;
