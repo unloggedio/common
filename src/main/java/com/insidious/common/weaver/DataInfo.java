@@ -106,8 +106,14 @@ public class DataInfo implements Serializable, BytesMarshallable {
         index = bytes.readInt();
         line = bytes.readInt();
         instructionIndex = bytes.readInt();
-        eventType = EventType.values()[bytes.readInt()];
-        valueDesc = Descriptor.values()[bytes.readInt()];
+        int eventTypeIndex = bytes.readInt();
+        if (eventTypeIndex != -1) {
+            eventType = EventType.values()[eventTypeIndex];
+        }
+        int descIndex = bytes.readInt();
+        if (descIndex != -1){
+            valueDesc = Descriptor.values()[descIndex];
+        }
         int attrLength = bytes.readInt();
         byte[] attrBytes = new byte[attrLength];
         bytes.read(attrBytes);
@@ -123,10 +129,22 @@ public class DataInfo implements Serializable, BytesMarshallable {
         bytes.writeInt(index);
         bytes.writeInt(line);
         bytes.writeInt(instructionIndex);
-        bytes.writeInt(eventType.ordinal());
-        bytes.writeInt(valueDesc.ordinal());
-        bytes.writeInt(attributes.length());
-        bytes.write(attributes);
+        if (eventType != null) {
+            bytes.writeInt(eventType.ordinal());
+        } else {
+            bytes.writeInt(-1);
+        }
+        if (valueDesc != null) {
+            bytes.writeInt(valueDesc.ordinal());
+        } else {
+            bytes.writeInt(-1);
+        }
+        if (attributes != null) {
+            bytes.writeInt(attributes.length());
+            bytes.write(attributes);
+        } else {
+            bytes.writeInt(0);
+        }
 //        BytesMarshallable.super.writeMarshallable(bytes);
     }
 
