@@ -19,6 +19,7 @@ public enum Descriptor {
     FloatObject("Ljava/lang/Float;"),
     DoubleObject("Ljava/lang/Double;"),
     ShortObject("Ljava/lang/Short;"),
+    LongObject("Ljava/lang/Long;"),
     Object("Ljava/lang/Object;"),
     Void("V");
 
@@ -57,6 +58,8 @@ public enum Descriptor {
                 return DoubleObject;
             case "Ljava/lang/Short;":
                 return ShortObject;
+            case "Ljava/lang/Long;":
+                return LongObject;
             case "Ljava/lang/Float;":
                 return FloatObject;
             case "Ljava/lang/Boolean;":
