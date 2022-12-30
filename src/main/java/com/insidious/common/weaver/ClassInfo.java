@@ -31,6 +31,15 @@ public class ClassInfo implements Serializable {
     private String hash;
     private String classLoaderIdentifier;
     private boolean isEnum;
+    private boolean isPojo;
+
+    public boolean isPojo() {
+        return isPojo;
+    }
+
+    public void setPojo(boolean pojo) {
+        isPojo = pojo;
+    }
 
     public boolean isEnum() {
         return isEnum;
