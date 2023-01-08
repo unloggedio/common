@@ -106,8 +106,9 @@ enums:
     11: floatobject
     12: doubleobject
     13: shortobject
-    14: object
-    15: void
+    14: longobject
+    15: object
+    16: void
   event_type:
     0: reserved
     1: method_entry
