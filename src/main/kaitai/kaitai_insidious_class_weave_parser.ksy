@@ -1,12 +1,9 @@
 meta:
   id: kaitai_insidious_class_weave_parser
 seq:
-  - id: class_count
-    type: u4be
   - id: class_info
     type: class_info
-    repeat: expr
-    repeat-expr: class_count
+    repeat: eos
 types:
   class_info:
     seq:

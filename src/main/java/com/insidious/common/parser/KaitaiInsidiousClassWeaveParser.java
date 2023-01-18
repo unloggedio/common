@@ -125,10 +125,13 @@ public class KaitaiInsidiousClassWeaveParser extends KaitaiStruct {
         _read();
     }
     private void _read() {
-        this.classCount = this._io.readU4be();
         this.classInfo = new ArrayList<ClassInfo>();
-        for (int i = 0; i < classCount(); i++) {
-            this.classInfo.add(new ClassInfo(this._io, this, _root));
+        {
+            int i = 0;
+            while (!this._io.isEof()) {
+                this.classInfo.add(new ClassInfo(this._io, this, _root));
+                i++;
+            }
         }
     }
     public static class ClassInfo extends KaitaiStruct {
@@ -340,11 +343,9 @@ public class KaitaiInsidiousClassWeaveParser extends KaitaiStruct {
         public KaitaiInsidiousClassWeaveParser _root() { return _root; }
         public KaitaiStruct _parent() { return _parent; }
     }
-    private long classCount;
     private ArrayList<ClassInfo> classInfo;
     private KaitaiInsidiousClassWeaveParser _root;
     private KaitaiStruct _parent;
-    public long classCount() { return classCount; }
     public ArrayList<ClassInfo> classInfo() { return classInfo; }
     public KaitaiInsidiousClassWeaveParser _root() { return _root; }
     public KaitaiStruct _parent() { return _parent; }
