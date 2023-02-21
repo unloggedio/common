@@ -111,7 +111,7 @@ public class DataInfo implements Serializable, BytesMarshallable {
             eventType = EventType.values()[eventTypeIndex];
         }
         int descIndex = bytes.readInt();
-        if (descIndex != -1){
+        if (descIndex != -1) {
             valueDesc = Descriptor.values()[descIndex];
         }
         int attrLength = bytes.readInt();
@@ -275,29 +275,16 @@ public class DataInfo implements Serializable, BytesMarshallable {
         return defaultValue;
     }
 
-    /**
-     * @return a string representation of the object.
-     */
+    @Override
     public String toString() {
-        StringBuilder buf = new StringBuilder();
-
-
-        buf.append(dataId);
-        buf.append(SEPARATOR);
-        buf.append(classId);
-        buf.append(SEPARATOR);
-        buf.append(methodId);
-        buf.append(SEPARATOR);
-        buf.append(line);
-        buf.append(SEPARATOR);
-        buf.append(instructionIndex);
-        buf.append(SEPARATOR);
-        buf.append(eventType.name());
-        buf.append(SEPARATOR);
-        buf.append(valueDesc.getString());
-        buf.append(SEPARATOR);
-        buf.append(attributes);
-        return buf.toString();
+        return "DataInfo{" +
+                "dataId=" + dataId +
+                ", classId=" + classId +
+                ", methodId=" + methodId +
+                ", line=" + line +
+                ", eventType=" + eventType +
+                ", valueDesc=" + valueDesc +
+                '}';
     }
 
     public byte[] toBytes() throws IOException {
