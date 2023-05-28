@@ -8,8 +8,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.List;
-import java.util.Scanner;
 
 public class ClassInfo implements Serializable {
     public static final SimpleAttribute<ClassInfo, Integer> CLASS_ID =
@@ -33,22 +31,6 @@ public class ClassInfo implements Serializable {
     private boolean isEnum;
     private boolean isPojo;
 
-    public boolean isPojo() {
-        return isPojo;
-    }
-
-    public void setPojo(boolean pojo) {
-        isPojo = pojo;
-    }
-
-    public boolean isEnum() {
-        return isEnum;
-    }
-
-    public void setEnum(boolean anEnum) {
-        isEnum = anEnum;
-    }
-
     public ClassInfo() {
     }
 
@@ -66,7 +48,7 @@ public class ClassInfo implements Serializable {
     public ClassInfo(int classId, String container, String filename,
                      String className, LogLevel loglevel,
                      String hash, String classLoaderIdentifier,
-                    String[] interfaces, String superName, String signature) {
+                     String[] interfaces, String superName, String signature) {
         this.classId = classId;
         this.container = container;
         this.filename = filename;
@@ -78,6 +60,23 @@ public class ClassInfo implements Serializable {
         this.superName = superName;
         this.signature = signature;
     }
+
+    public boolean isPojo() {
+        return isPojo;
+    }
+
+    public void setPojo(boolean pojo) {
+        isPojo = pojo;
+    }
+
+    public boolean isEnum() {
+        return isEnum;
+    }
+
+    public void setEnum(boolean anEnum) {
+        isEnum = anEnum;
+    }
+
     public int getClassId() {
         return classId;
     }
@@ -147,7 +146,7 @@ public class ClassInfo implements Serializable {
             if (signature != null) {
                 dao.writeInt(signature.length());
                 dao.writeBytes(signature);
-            } else{
+            } else {
                 dao.writeInt(0);
             }
 
