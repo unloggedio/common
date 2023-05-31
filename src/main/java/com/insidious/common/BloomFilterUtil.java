@@ -7,8 +7,11 @@ import java.nio.ByteBuffer;
 
 public class BloomFilterUtil {
 
-    public static final int BLOOM_FILTER_BIT_SIZE = 1024 * 8;
-    public static final int BLOOM_AGGREGATED_FILTER_BIT_SIZE = 1024 * 32;
+//    public static final int BLOOM_FILTER_BIT_SIZE = 1024 * 8;
+//    public static final int BLOOM_AGGREGATED_FILTER_BIT_SIZE = 1024 * 32;
+
+    public static final int BLOOM_FILTER_BIT_SIZE = 8;
+    public static final int BLOOM_AGGREGATED_FILTER_BIT_SIZE = 32;
 
     public static BloomFilter<Long> newBloomFilterForValues(Integer SIZE) {
         return new FilterBuilder(SIZE, 0.001).buildBloomFilter();
@@ -16,6 +19,16 @@ public class BloomFilterUtil {
 
     public static BloomFilter<Integer> newBloomFilterForProbes(Integer SIZE) {
         return new FilterBuilder(SIZE, 0.001).buildBloomFilter();
+    }
+
+    public static BloomFilterNonSync<Long> newBloomFilterForValuesNonSync(Integer SIZE) {
+        FilterBuilder filterBuilder = new FilterBuilder(SIZE, 0.001);
+        return new BloomFilterNonSync<>(filterBuilder);
+    }
+
+    public static BloomFilterNonSync<Integer> newBloomFilterForProbesNonSync(Integer SIZE) {
+        FilterBuilder filterBuilder = new FilterBuilder(SIZE, 0.001);
+        return new BloomFilterNonSync<>(filterBuilder);
     }
 
 
