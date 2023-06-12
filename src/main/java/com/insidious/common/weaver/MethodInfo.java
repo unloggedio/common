@@ -3,10 +3,7 @@ package com.insidious.common.weaver;
 import com.googlecode.cqengine.attribute.SimpleAttribute;
 import com.googlecode.cqengine.query.option.QueryOptions;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.util.Scanner;
 
 
@@ -190,5 +187,37 @@ public class MethodInfo implements Serializable {
 
 
         return baos.toByteArray();
+    }
+
+    public void writeToOutputStream(OutputStream baos) throws IOException {
+
+        DataOutputStream dao = new DataOutputStream(baos);
+
+
+        dao.writeInt(classId);
+        dao.writeInt(methodId);
+
+        if (methodName != null) {
+            dao.writeInt(methodName.getBytes().length);
+            dao.write(methodName.getBytes());
+        } else {
+            dao.writeInt(0);
+        }
+
+        dao.writeInt(methodDesc.getBytes().length);
+        dao.write(methodDesc.getBytes());
+
+        dao.writeInt(access);
+
+        if (sourceFileName != null) {
+            dao.writeInt(sourceFileName.getBytes().length);
+            dao.write(sourceFileName.getBytes());
+        } else {
+            dao.writeInt(0);
+        }
+
+        dao.writeInt(methodHash.getBytes().length);
+        dao.write(methodHash.getBytes());
+        dao.flush();
     }
 }

@@ -8,10 +8,7 @@ import net.openhft.chronicle.bytes.BytesMarshallable;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.core.io.IORuntimeException;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.BufferOverflowException;
 import java.nio.BufferUnderflowException;
 
@@ -113,6 +110,64 @@ public class ClassInfo implements Serializable, BytesMarshallable {
 
     @Override
     public void readMarshallable(BytesIn bytes) throws IORuntimeException, BufferUnderflowException, IllegalStateException {
+        classId = bytes.readInt();
+        int containerNameLength = bytes.readInt();
+        if (containerNameLength > 0) {
+            byte[] containerNameBytes = new byte[containerNameLength];
+            bytes.read(containerNameBytes);
+            container = new String(containerNameBytes);
+        }
+        int fileNameLength = bytes.readInt();
+        if (fileNameLength > 0) {
+            byte[] fileNameBytes = new byte[fileNameLength];
+            bytes.read(fileNameBytes);
+            filename = new String(fileNameBytes);
+        }
+
+        int classNameLength = bytes.readInt();
+        byte[] classNameBytes = new byte[classNameLength];
+        bytes.read(classNameBytes);
+        className = new String(classNameBytes);
+
+        int logLevelValueLength = bytes.readInt();
+        byte[] logLevelBytes = new byte[logLevelValueLength];
+        bytes.read(logLevelBytes);
+        loglevel = LogLevel.valueOf(new String(logLevelBytes));
+
+        int hashValueLength = bytes.readInt();
+        byte[] hashValueBytes = new byte[hashValueLength];
+        bytes.read(hashValueBytes);
+        hash = new String(hashValueBytes);
+
+        int classLoaderIdentifierValueLength = bytes.readInt();
+        byte[] classLoaderIdentifierBytes = new byte[classLoaderIdentifierValueLength];
+        bytes.read(classLoaderIdentifierBytes);
+        classLoaderIdentifier = new String(classLoaderIdentifierBytes);
+
+        int interfaceCount = bytes.readInt();
+        interfaces = new String[interfaceCount];
+        for (int i = 0; i < interfaceCount; i++) {
+            int interfaceValueLength = bytes.readInt();
+            byte[] interfaceValueBytes = new byte[interfaceValueLength];
+            bytes.read(interfaceValueBytes);
+            interfaces[i] = new String(interfaceValueBytes);
+        }
+
+        int signatureValueLength = bytes.readInt();
+        byte[] signatureValueBytes = new byte[signatureValueLength];
+        bytes.read(signatureValueBytes);
+        signature = new String(signatureValueBytes);
+
+        int superNameValueLength = bytes.readInt();
+        byte[] superNameValueBytes = new byte[superNameValueLength];
+        bytes.read(superNameValueBytes);
+        superName = new String(superNameValueBytes);
+
+    }
+
+    public void readFromDataStream(ByteArrayInputStream byteArrayInputStream) throws BufferUnderflowException,
+            IllegalStateException, IOException {
+        DataInputStream bytes = new DataInputStream(byteArrayInputStream);
         classId = bytes.readInt();
         int containerNameLength = bytes.readInt();
         if (containerNameLength > 0) {
@@ -282,6 +337,60 @@ public class ClassInfo implements Serializable, BytesMarshallable {
 
 
         return new byte[0];
+    }
+
+    public void writeToOutputStream(OutputStream baos) throws IOException {
+        DataOutputStream dao = new DataOutputStream(baos);
+
+        dao.writeInt(classId);
+
+        if (container != null) {
+            dao.writeInt(container.getBytes().length);
+            dao.write(container.getBytes());
+        } else {
+            dao.writeInt(0);
+        }
+
+        if (filename != null) {
+            dao.writeInt(filename.getBytes().length);
+            dao.write(filename.getBytes());
+        } else {
+            dao.writeInt(0);
+        }
+
+        dao.writeInt(className.getBytes().length);
+        dao.write(className.getBytes());
+
+        dao.writeInt(loglevel.toString().getBytes().length);
+        dao.write(loglevel.toString().getBytes());
+
+        dao.writeInt(hash.getBytes().length);
+        dao.write(hash.getBytes());
+
+        dao.writeInt(classLoaderIdentifier.getBytes().length);
+        dao.write(classLoaderIdentifier.getBytes());
+
+        dao.writeInt(interfaces.length);
+        for (String anInterface : interfaces) {
+            dao.writeInt(anInterface.length());
+            dao.writeBytes(anInterface);
+        }
+        if (signature != null) {
+            dao.writeInt(signature.length());
+            dao.writeBytes(signature);
+        } else {
+            dao.writeInt(0);
+        }
+
+        if (superName != null) {
+            dao.writeInt(superName.length());
+            dao.writeBytes(superName);
+        } else {
+            dao.writeInt(0);
+        }
+        dao.flush();
+
+
     }
 
     public String[] getInterfaces() {

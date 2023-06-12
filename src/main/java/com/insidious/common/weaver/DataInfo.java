@@ -8,14 +8,10 @@ import net.openhft.chronicle.bytes.BytesMarshallable;
 import net.openhft.chronicle.bytes.BytesOut;
 import net.openhft.chronicle.core.io.IORuntimeException;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.BufferOverflowException;
 import java.nio.BufferUnderflowException;
 import java.util.Map;
-import java.util.Scanner;
 
 /**
  * This object is to record attributes of a data ID.
@@ -278,5 +274,22 @@ public class DataInfo implements Serializable, BytesMarshallable {
 
 
         return baos.toByteArray();
+    }
+
+    public void writeToStream(OutputStream baos) throws IOException {
+        DataOutputStream dao = new DataOutputStream(baos);
+
+        dao.writeInt(classId);
+        dao.writeInt(methodId);
+        dao.writeInt(dataId);
+        dao.writeInt(line);
+        dao.writeInt(instructionIndex);
+
+        dao.writeInt(eventType.ordinal());
+        dao.writeInt(valueDesc.ordinal());
+        dao.writeInt(attributes.getBytes().length);
+        dao.write(attributes.getBytes());
+        dao.flush();
+
     }
 }
