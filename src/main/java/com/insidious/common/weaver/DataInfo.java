@@ -72,32 +72,6 @@ public class DataInfo implements Serializable, BytesMarshallable {
     public DataInfo() {
     }
 
-    /**
-     * Create an instance from a string representation created by DataInfo.toString.
-     *
-     * @param s is the string representation
-     * @return a created instance
-     */
-    public static DataInfo parse(String s) {
-        Scanner sc = new Scanner(s);
-        sc.useDelimiter(SEPARATOR);
-        int dataId = sc.nextInt();
-        int classId = sc.nextInt();
-        int methodId = sc.nextInt();
-        int line = sc.nextInt();
-        int instructionIndex = sc.nextInt();
-        EventType t = EventType.valueOf(sc.next());
-        Descriptor d = Descriptor.get(sc.next());
-        StringBuilder b = new StringBuilder();
-        while (sc.hasNext()) {
-            b.append(sc.next());
-            b.append(DataInfo.ATTRIBUTE_SEPARATOR);
-        }
-        String attributes = b.toString();
-        sc.close();
-        return new DataInfo(classId, methodId, dataId, line, instructionIndex, t, d, attributes);
-    }
-
     @Override
     public void readMarshallable(BytesIn bytes) throws IORuntimeException, BufferUnderflowException, IllegalStateException {
         classId = bytes.readInt();
