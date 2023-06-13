@@ -66,6 +66,20 @@ public enum Descriptor {
                 return BooleanObject;
             case "Ljava/lang/Character;":
                 return CharacterObject;
+            case "java.lang.Integer;":
+                return IntegerObject;
+            case "java.lang.Double;":
+                return DoubleObject;
+            case "java.lang.Short;":
+                return ShortObject;
+            case "java.lang.Long;":
+                return LongObject;
+            case "java.lang.Float;":
+                return FloatObject;
+            case "java.lang.Boolean;":
+                return BooleanObject;
+            case "java.lang.Character;":
+                return CharacterObject;
             default:
                 return Object;
         }
