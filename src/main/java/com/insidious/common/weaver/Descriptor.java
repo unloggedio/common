@@ -19,6 +19,7 @@ public enum Descriptor {
     FloatObject("Ljava/lang/Float;"),
     DoubleObject("Ljava/lang/Double;"),
     ShortObject("Ljava/lang/Short;"),
+    ByteObject("Ljava/lang/Byte;"),
     LongObject("Ljava/lang/Long;"),
     Object("Ljava/lang/Object;"),
     Void("V");
@@ -52,12 +53,50 @@ public enum Descriptor {
                 return Double;
             case "V":
                 return Void;
+            case "boolean":
+                return Boolean;
+            case "byte":
+                return Byte;
+            case "char":
+                return Char;
+            case "short":
+                return Short;
+            case "int":
+                return Integer;
+            case "long":
+                return Long;
+            case "float":
+                return Float;
+            case "double":
+                return Double;
+            case "void":
+                return Void;
+            case "BOOLEAN":
+                return Boolean;
+            case "BYTE":
+                return Byte;
+            case "CHAR":
+                return Char;
+            case "SHORT":
+                return Short;
+            case "INT":
+                return Integer;
+            case "LONG":
+                return Long;
+            case "FLOAT":
+                return Float;
+            case "DOUBLE":
+                return Double;
+            case "VOID":
+                return Void;
             case "Ljava/lang/Integer;":
                 return IntegerObject;
             case "Ljava/lang/Double;":
                 return DoubleObject;
             case "Ljava/lang/Short;":
                 return ShortObject;
+            case "Ljava/lang/Byte;":
+                return ByteObject;
             case "Ljava/lang/Long;":
                 return LongObject;
             case "Ljava/lang/Float;":
@@ -66,19 +105,21 @@ public enum Descriptor {
                 return BooleanObject;
             case "Ljava/lang/Character;":
                 return CharacterObject;
-            case "java.lang.Integer;":
+            case "java.lang.Integer":
                 return IntegerObject;
-            case "java.lang.Double;":
+            case "java.lang.Double":
                 return DoubleObject;
-            case "java.lang.Short;":
+            case "java.lang.Short":
                 return ShortObject;
-            case "java.lang.Long;":
+            case "java.lang.Byte":
+                return ByteObject;
+            case "java.lang.Long":
                 return LongObject;
-            case "java.lang.Float;":
+            case "java.lang.Float":
                 return FloatObject;
-            case "java.lang.Boolean;":
+            case "java.lang.Boolean":
                 return BooleanObject;
-            case "java.lang.Character;":
+            case "java.lang.Character":
                 return CharacterObject;
             default:
                 return Object;
