@@ -31,14 +31,15 @@ public class KaitaiInsidiousClassWeaveParser extends KaitaiStruct {
         FLOATOBJECT(11),
         DOUBLEOBJECT(12),
         SHORTOBJECT(13),
-        LONGOBJECT(14),
-        OBJECT(15),
-        VOID(16);
+        BYTEOBJECT(14),
+        LONGOBJECT(15),
+        OBJECT(16),
+        VOID(17);
 
         private final long id;
         Descriptor(long id) { this.id = id; }
         public long id() { return id; }
-        private static final Map<Long, Descriptor> byId = new HashMap<Long, Descriptor>(17);
+        private static final Map<Long, Descriptor> byId = new HashMap<Long, Descriptor>(18);
         static {
             for (Descriptor e : Descriptor.values())
                 byId.put(e.id(), e);
