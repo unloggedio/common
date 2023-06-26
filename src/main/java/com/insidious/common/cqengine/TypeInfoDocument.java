@@ -1,10 +1,12 @@
 package com.insidious.common.cqengine;
 
 import com.googlecode.cqengine.attribute.SimpleAttribute;
+import com.googlecode.cqengine.persistence.support.serialization.PersistenceConfig;
 import com.googlecode.cqengine.query.option.QueryOptions;
 
 import java.io.Serializable;
 
+@PersistenceConfig(serializer = TypeInfoDocumentSerializer.class)
 public class TypeInfoDocument implements Serializable {
 
     public static final SimpleAttribute<TypeInfoDocument, String> TYPE_NAME =

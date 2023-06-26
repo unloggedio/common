@@ -1,6 +1,7 @@
 package com.insidious.common.cqengine;
 
 import com.googlecode.cqengine.attribute.SimpleAttribute;
+import com.googlecode.cqengine.persistence.support.serialization.PersistenceConfig;
 import com.googlecode.cqengine.query.option.QueryOptions;
 import net.openhft.chronicle.bytes.BytesIn;
 import net.openhft.chronicle.bytes.BytesMarshallable;
@@ -11,6 +12,7 @@ import java.io.Serializable;
 import java.nio.BufferOverflowException;
 import java.nio.BufferUnderflowException;
 
+@PersistenceConfig (serializer = ObjectInfoDocumentSerializer.class)
 public class ObjectInfoDocument implements Serializable, BytesMarshallable {
 
     public static final SimpleAttribute<ObjectInfoDocument, Integer> OBJECT_TYPE_ID =
@@ -57,7 +59,6 @@ public class ObjectInfoDocument implements Serializable, BytesMarshallable {
     public void readMarshallable(BytesIn bytes) throws IORuntimeException, BufferUnderflowException, IllegalStateException {
         objectId = bytes.readLong();
         typeId = bytes.readInt();
-//        BytesMarshallable.super.readMarshallable(bytes);
     }
 
     @Override
