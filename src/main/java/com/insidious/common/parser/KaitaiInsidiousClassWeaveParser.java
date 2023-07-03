@@ -123,9 +123,9 @@ public class KaitaiInsidiousClassWeaveParser extends KaitaiStruct {
         super(_io);
         this._parent = _parent;
         this._root = _root == null ? this : _root;
-        _read();
+//        _read();
     }
-    private void _read() {
+    public void _read() {
         this.classInfo = new ArrayList<ClassInfo>();
         {
             int i = 0;
@@ -134,6 +134,12 @@ public class KaitaiInsidiousClassWeaveParser extends KaitaiStruct {
                 i++;
             }
         }
+    }
+    public ClassInfo nextClass() {
+        if (this._io.isEof()) {
+            return null;
+        }
+        return new ClassInfo(this._io, this, _root);
     }
     public static class ClassInfo extends KaitaiStruct {
         public static ClassInfo fromFile(String fileName) throws IOException {
