@@ -1,7 +1,5 @@
 package com.insidious.common;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import com.googlecode.cqengine.attribute.Attribute;
 import com.googlecode.cqengine.attribute.MultiValueAttribute;
 import com.googlecode.cqengine.attribute.SimpleAttribute;
@@ -65,7 +63,8 @@ public class UploadFile extends AbstractEvent<UploadFile> {
 
 
     protected static final int MASHALLABLE_VERSION = 1;
-    protected static JsonParser parser = new JsonParser();
+    private final long timeStart = System.currentTimeMillis();
+    //    protected static JsonParser parser = new JsonParser();
     public String path;
     public long threadId;
     public BloomFilter<Long> valueIdBloomFilter;
@@ -75,12 +74,7 @@ public class UploadFile extends AbstractEvent<UploadFile> {
     protected Integer[] probeIds;
     protected Long[] nanotimes;
     protected Long[] valueIds;
-    private final long timeStart = System.currentTimeMillis();
     private long timeEnd = System.currentTimeMillis();
-
-    public void setTimeEnd(long timeEnd) {
-        this.timeEnd = timeEnd;
-    }
 
     public UploadFile(String pathToFile, long threadId,
                       BloomFilter<Long> valueIdBloomFilter,
@@ -100,14 +94,18 @@ public class UploadFile extends AbstractEvent<UploadFile> {
         byte[] valueBytes = BloomFilterUtil.getNextBytes(byteReader);
         byte[] probeBytes = BloomFilterUtil.getNextBytes(byteReader);
 
-        JsonElement valueFilterJson = parser.parse(new String(valueBytes));
-        BloomFilter<Long> valueFilter = BloomFilterConverter.fromJson(valueFilterJson, Long.class); //{"size":240,"hashes":4,"HashMethod":"MD5","bits":"AAAAEAAAAACAgAAAAAAAAAAAAAAQ"}
+//        JsonElement valueFilterJson = parser.parse(new String(valueBytes));
+//        BloomFilter<Long> valueFilter = BloomFilterConverter.fromJson(valueFilterJson, Long.class); //{"size":240,"hashes":4,"HashMethod":"MD5","bits":"AAAAEAAAAACAgAAAAAAAAAAAAAAQ"}
+//
+//        JsonElement probeFilterJson = parser.parse(new String(probeBytes));
+//        BloomFilter<Integer> probeFilter = BloomFilterConverter.fromJson(probeFilterJson, Integer.class); //{"size":240,"hashes":4,"HashMethod":"MD5","bits":"AAAAEAAAAACAgAAAAAAAAAAAAAAQ"}
 
-        JsonElement probeFilterJson = parser.parse(new String(probeBytes));
-        BloomFilter<Integer> probeFilter = BloomFilterConverter.fromJson(probeFilterJson, Integer.class); //{"size":240,"hashes":4,"HashMethod":"MD5","bits":"AAAAEAAAAACAgAAAAAAAAAAAAAAQ"}
+        return new UploadFile(path, threadId, null, null);
 
-        return new UploadFile(path, threadId, valueFilter, probeFilter);
+    }
 
+    public void setTimeEnd(long timeEnd) {
+        this.timeEnd = timeEnd;
     }
 
     public byte[] toBytes() {
