@@ -162,6 +162,8 @@ public class ClassInfo implements Serializable, BytesMarshallable {
         byte[] superNameValueBytes = new byte[superNameValueLength];
         bytes.read(superNameValueBytes);
         superName = new String(superNameValueBytes);
+        isPojo = bytes.readBoolean();
+        isEnum = bytes.readBoolean();
 
     }
 
@@ -221,6 +223,9 @@ public class ClassInfo implements Serializable, BytesMarshallable {
         bytes.read(superNameValueBytes);
         superName = new String(superNameValueBytes);
 
+        isEnum = bytes.readBoolean();
+        isPojo = bytes.readBoolean();
+
     }
 
     @Override
@@ -272,6 +277,8 @@ public class ClassInfo implements Serializable, BytesMarshallable {
         } else {
             bytes.writeInt(0);
         }
+        bytes.writeBoolean(isEnum);
+        bytes.writeBoolean(isPojo);
 
 
     }
@@ -279,6 +286,16 @@ public class ClassInfo implements Serializable, BytesMarshallable {
     public byte[] toBytes() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         DataOutputStream dao = new DataOutputStream(baos);
+
+        try {
+            writeToOutputStream(dao);
+            return baos.toByteArray();
+        } catch (IOException e) {
+            //
+            baos = new ByteArrayOutputStream();
+            dao = new DataOutputStream(baos);
+
+        }
 
         try {
             dao.writeInt(classId);
@@ -328,15 +345,15 @@ public class ClassInfo implements Serializable, BytesMarshallable {
                 dao.writeInt(0);
             }
 
+            dao.writeBoolean(isEnum);
+            dao.writeBoolean(isPojo);
 
             return baos.toByteArray();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
-
-        return new byte[0];
     }
 
     public void writeToOutputStream(OutputStream baos) throws IOException {
@@ -388,6 +405,9 @@ public class ClassInfo implements Serializable, BytesMarshallable {
         } else {
             dao.writeInt(0);
         }
+
+        dao.writeBoolean(isEnum);
+        dao.writeBoolean(isPojo);
         dao.flush();
 
 
